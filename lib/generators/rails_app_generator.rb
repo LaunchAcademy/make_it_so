@@ -35,6 +35,7 @@ module MakeItSo
       if options[:rspec]
         build 'rspec_dependency'
         build 'factory_girl_rspec'
+        build 'valid_attribute_rspec'
       end
 
     end

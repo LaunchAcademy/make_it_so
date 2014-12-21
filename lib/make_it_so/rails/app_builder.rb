@@ -21,9 +21,9 @@ module MakeItSo
         after_bundle do
           inside 'spec' do
             insert_into_file 'rails_helper.rb',
-              after: "require 'rspec/rails'\n" do
+              after: rails_helper_insertion_hook do
 
-              "require File.join(File.dirname(__FILE__), 'support/factory_girl')"
+              "require File.join(File.dirname(__FILE__), 'support/factory_girl')\n"
             end
 
             inside 'support' do
@@ -31,6 +31,24 @@ module MakeItSo
             end
           end
         end
+      end
+
+      def valid_attribute_rspec
+        self.gem 'valid_attribute', group: [:development, :test]
+        after_bundle do
+          inside 'spec' do
+            insert_into_file 'rails_helper.rb',
+              after: rails_helper_insertion_hook do
+
+              "require File.join(File.dirname(__FILE__), 'support/valid_attribute')\n"
+            end
+          end
+        end
+      end
+
+      protected
+      def rails_helper_insertion_hook
+        "require 'rspec/rails'\n"
       end
     end
   end
