@@ -36,6 +36,7 @@ module MakeItSo
         build 'rspec_dependency'
         build 'factory_girl_rspec'
         build 'valid_attribute_rspec'
+        build 'shoulda_rspec'
       end
 
     end

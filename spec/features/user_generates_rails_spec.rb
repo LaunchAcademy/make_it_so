@@ -71,6 +71,16 @@ feature 'user generates rails app' do
       end
     end
 
+    context 'shoulda' do
+      it 'includes shoulda-matchers in the gemfile' do
+        expect(File.read(gemfile_path)).to include('shoulda-matchers')
+      end
+
+      it 'requires shoulda-matchers in the rails_helper' do
+        expect(File.read(rails_spec_helper)).
+          to include("require 'shoulda-matchers'")
+      end
+    end
 
   end
 end

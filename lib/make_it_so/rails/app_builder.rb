@@ -57,6 +57,21 @@ module MakeItSo
         end
       end
 
+      def shoulda_rspec
+        self.gem 'shoulda-matchers',
+          group: [:development, :test],
+          require: false
+        after_bundle do
+          inside 'spec' do
+            insert_into_file 'rails_helper.rb',
+              after: rails_helper_insertion_hook do
+
+               "require 'shoulda-matchers'\n"
+            end
+          end
+        end
+      end
+
       protected
       def rails_helper_insertion_hook
         "require 'rspec/rails'\n"
