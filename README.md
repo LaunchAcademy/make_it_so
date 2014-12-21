@@ -1,6 +1,10 @@
 # MakeItSo
 
-TODO: Write a gem description
+![Make It So](http://images.simplysyndicated.com/wp-content/uploads/2014/07/make-it-so-captain.jpg)
+
+Make It So is a command line utility that makes it easy to create starting points
+for all apps ruby. Right now, it only supports Rails, but support for Sinatra,
+Gosu, and other paradigms are in progress.
 
 ## Installation
 
@@ -21,8 +25,7 @@ Or install it yourself as:
 ## Usage
 
 ```ruby
-#> make_it_so sinatra --rspec --database=postgresql
-#> make_it_so rails --rspec --database=postgrsql
+make_it_so rails <app_name>
 ```
 
 ## Contributing
