@@ -34,7 +34,9 @@ module MakeItSo
       super
       if options[:rspec]
         build 'rspec_dependency'
+        build 'factory_girl_rspec'
       end
+
     end
 
     protected
