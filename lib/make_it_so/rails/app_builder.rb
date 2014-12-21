@@ -5,6 +5,9 @@ module MakeItSo
     class AppBuilder < ::Rails::AppBuilder
       def rspec_dependency
         self.gem 'rspec-rails', group: [:development, :test]
+        self.gem 'capybara', group: [:development, :test]
+        self.gem 'launchy', group: [:development, :test]
+
         after_bundle do
           #stop spring in case it is running - it will hang
           #https://github.com/rails/rails/issues/13381
@@ -12,6 +15,14 @@ module MakeItSo
           generate 'rspec:install'
           inside 'spec' do
             empty_directory 'support'
+          end
+
+          inside 'spec' do
+            insert_into_file 'rails_helper.rb',
+              after: rails_helper_insertion_hook do
+
+              "require 'capybara/rspec'\n"
+            end
           end
         end
       end

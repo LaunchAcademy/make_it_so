@@ -30,6 +30,20 @@ feature 'user generates rails app' do
       expect(FileTest.exists?(spec_helper)).to eq(true)
     end
 
+    context 'capybara' do
+      it 'includes capybara as a Gemfile dependency' do
+        expect(File.read(gemfile_path)).to include('capybara')
+      end
+
+      it 'includes launch as a Gemfile dependency' do
+        expect(File.read(gemfile_path)).to include('launchy')
+      end
+
+      it 'includes capybara in the rails_helper' do
+        expect(File.read(rails_spec_helper)).to match(/require \'capybara\/rspec\'/)
+      end
+    end
+
     context 'factory_girl' do
       it 'includes a factory_girl support file' do
         fg_support_path = join_paths(app_path, 'spec/support/factory_girl.rb')
