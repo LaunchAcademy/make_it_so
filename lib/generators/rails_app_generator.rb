@@ -32,13 +32,18 @@ module MakeItSo
 
     def finish_template
       super
+      build 'application_controller'
       if options[:rspec]
         build 'rspec_dependency'
+        build 'fix_generators'
         build 'factory_girl_rspec'
         build 'valid_attribute_rspec'
         build 'shoulda_rspec'
       end
 
+      if options[:devise]
+        build 'devise_dependency'
+      end
     end
 
     protected

@@ -20,6 +20,11 @@ feature 'user generates rails app' do
     expect(FileTest.exists?(join_paths(app_path, 'app/models'))).to eq(true)
   end
 
+  scenario 'includes the flash in the layout' do
+    app_layout = File.join(app_path, 'app/views/layouts/application.html.erb')
+    expect(File.read(app_layout)).to include('flash')
+  end
+
   context 'rspec' do
     it 'eliminates test/unit' do
       expect(FileTest.exists?(join_paths(app_path, 'test'))).to_not eq(true)
@@ -65,6 +70,11 @@ feature 'user generates rails app' do
         expect(File.read(gemfile_path)).to include('valid_attribute')
       end
 
+      it 'creates the valid_attribute support file' do
+        support_path = join_paths(app_path, 'spec/support/valid_attribute.rb')
+        expect(FileTest.exists?(support_path)).to eq(true)
+      end
+
       it 'requires the valid_attribute support file' do
         expect(File.read(rails_spec_helper)).
           to match(/require(.*)support\/valid_attribute/)
@@ -81,6 +91,36 @@ feature 'user generates rails app' do
           to include("require 'shoulda-matchers'")
       end
     end
+  end
 
+  context 'devise' do
+    it 'adds devise as a dependency' do
+      expect(File.read(gemfile_path)).to include('devise')
+    end
+
+    it 'generates devise' do
+      devise_initializer = File.join(app_path, 'config/initializers/devise.rb')
+      expect(FileTest.exists?(devise_initializer)).to eq(true)
+    end
+
+    it 'generates devise views' do
+      devise_views = File.join(app_path, 'app/views/devise')
+      expect(FileTest.exists?(devise_views)).to eq(true)
+    end
+
+    it 'creates a user model' do
+      user_model = File.join(app_path, 'app/models/user.rb')
+      expect(FileTest.exists?(user_model)).to eq(true)
+    end
+
+    it 'creates a user_signs_up feature spec' do
+      feature_spec = File.join(app_path, 'spec/features/user_signs_up_spec.rb')
+      expect(FileTest.exists?(feature_spec)).to eq(true)
+    end
+
+    it 'creates a user_signs_in feature spec' do
+      feature_spec = File.join(app_path, 'spec/features/user_signs_in_spec.rb')
+      expect(FileTest.exists?(feature_spec)).to eq(true)
+    end
   end
 end
