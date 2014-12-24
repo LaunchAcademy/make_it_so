@@ -133,6 +133,11 @@ feature 'user generates rails app' do
       feature_spec = File.join(app_path, 'spec/features/user_signs_in_spec.rb')
       expect(FileTest.exists?(feature_spec)).to eq(true)
     end
+
+    it 'creates a user_signs_out feature spec' do
+      feature_spec = File.join(app_path, 'spec/features/user_signs_out_spec.rb')
+      expect(FileTest.exists?(feature_spec)).to eq(true)
+    end
   end
 
   context 'foundation' do
