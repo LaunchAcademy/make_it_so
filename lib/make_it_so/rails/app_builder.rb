@@ -100,11 +100,6 @@ module MakeItSo
             inside 'spec' do
               directory 'features'
 
-              inside 'features' do
-                template 'user_signs_in_spec.rb'
-                template 'user_signs_up_spec.rb'
-              end
-
               inside 'support' do
                 insert_into_file 'factory_girl.rb',
                   after: "FactoryGirl.define do\n" do
@@ -115,11 +110,7 @@ module MakeItSo
             end
           end
 
-          generate 'controller homes index'
-          inside 'app/views/homes' do
-            template 'index.html.erb'
-            route "root 'homes\#index'"
-          end
+          route "root 'homes\#index'"
         end
       end
 
