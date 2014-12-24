@@ -21,6 +21,17 @@ module MakeItSo
       default: 'postgresql',
       desc: "Preconfigure for selected database (options: #{DATABASES.join('/')})"
 
+    class_option :foundation,
+      type: :boolean,
+      default: true,
+      desc: 'generate foundation support'
+
+    # turbolinks is the devil
+    class_option :skip_turbolinks,
+      type: :boolean,
+      default: true,
+      desc: 'Skip turbolinks gem'
+
     def initialize(*args)
       super
       if @options[:rspec]
@@ -32,10 +43,16 @@ module MakeItSo
 
     def finish_template
       super
+
+      build 'base_stylesheets'
+      unless options[:skip_javascript]
+        build 'base_javascripts'
+      end
+
       build 'application_controller'
       if options[:rspec]
         build 'rspec_dependency'
-        build 'fix_generators'
+        #build 'fix_generators'
         build 'factory_girl_rspec'
         build 'valid_attribute_rspec'
         build 'shoulda_rspec'
@@ -43,6 +60,10 @@ module MakeItSo
 
       if options[:devise]
         build 'devise_dependency'
+      end
+
+      if options[:foundation]
+        build 'foundation_dependency'
       end
     end
 

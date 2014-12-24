@@ -9,6 +9,18 @@ module MakeItSo
         end
       end
 
+      def base_javascripts
+        inside 'app/assets/javascripts' do
+          template 'application.js'
+        end
+      end
+
+      def base_stylesheets
+        inside 'app/assets/stylesheets' do
+          template 'application.css'
+        end
+      end
+
       def fix_generators
         inject_into_class 'config/application.rb', 'Application' do
           snippet('application_generator.rb')
@@ -111,6 +123,19 @@ module MakeItSo
           end
 
           route "root 'homes\#index'"
+        end
+      end
+
+      def foundation_dependency
+        self.gem 'foundation-rails'
+
+        after_bundle do
+          generate 'foundation:install foundation'
+          # foundation-rails generates an application layout so we
+          # must remove it
+          # there is a pull request open to skip this:
+          # https://github.com/zurb/foundation-rails/pull/108
+          remove_file 'app/views/layouts/foundation.html.erb'
         end
       end
 

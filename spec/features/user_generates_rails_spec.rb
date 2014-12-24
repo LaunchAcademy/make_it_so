@@ -9,6 +9,8 @@ feature 'user generates rails app' do
     join_paths(tmp_path, app_name)
   end
 
+  let(:css_manifest_path) { join_paths(app_path, 'app/assets/stylesheets/application.css') }
+
   let(:gemfile_path) { join_paths(app_path, 'Gemfile')}
   let(:rails_spec_helper) { join_paths(app_path, 'spec/rails_helper.rb')}
 
@@ -18,6 +20,15 @@ feature 'user generates rails app' do
 
   scenario 'generates a rails app' do
     expect(FileTest.exists?(join_paths(app_path, 'app/models'))).to eq(true)
+  end
+
+  scenario 'creates an application.js manifest' do
+    js_file = join_paths(app_path, 'app/assets/javascripts/application.js')
+    expect(FileTest.exists?(js_file)).to eq(true)
+  end
+
+  scenario 'creates an application.css manifest' do
+    expect(FileTest.exists?(css_manifest_path)).to eq(true)
   end
 
   scenario 'includes the flash in the layout' do
@@ -121,6 +132,12 @@ feature 'user generates rails app' do
     it 'creates a user_signs_in feature spec' do
       feature_spec = File.join(app_path, 'spec/features/user_signs_in_spec.rb')
       expect(FileTest.exists?(feature_spec)).to eq(true)
+    end
+  end
+
+  context 'foundation' do
+    it 'generates foundation' do
+      expect(File.read(css_manifest_path)).to include('foundation_and_overrides')
     end
   end
 end
