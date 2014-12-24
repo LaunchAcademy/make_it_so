@@ -20,6 +20,12 @@ Install it yourself as:
 make_it_so rails <app_name>
 ```
 
+Then run:
+```ruby
+rake db:create
+rake db:migrate
+```
+
 ## Contributing
 
 1. Fork it ( https://github.com/[my-github-username]/make_it_so/fork )
