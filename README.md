@@ -10,15 +10,7 @@ Gosu, and other paradigms are in progress.
 
 Add this line to your application's Gemfile:
 
-```ruby
-gem 'make_it_so'
-```
-
-And then execute:
-
-    $ bundle
-
-Or install it yourself as:
+Install it yourself as:
 
     $ gem install make_it_so
 
