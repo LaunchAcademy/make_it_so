@@ -26,6 +26,18 @@ rake db:create
 rake db:migrate
 ```
 
+## Extra Footer in Views
+
+Inject javascript at the end of the body tag. Javascript should always be the last thing loaded on the page. In view logic you can do the following:
+
+```
+<%= content_for :extra_footer do %>
+  <script type="text/javascript">
+    var widget = new Something.Widget('foo');
+  </script>
+<% end %>
+```
+
 ## Contributing
 
 1. Fork it ( https://github.com/[my-github-username]/make_it_so/fork )
