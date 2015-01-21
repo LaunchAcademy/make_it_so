@@ -3,6 +3,9 @@
 <head>
   <title><%= camelized %></title>
   <%%= stylesheet_link_tag 'application', media: 'all' %>
+  <% if options.foundation? %>
+    <%%= javascript_include_tag "vendor/modernizr" %>
+  <% end %>
   <%%= csrf_meta_tags %>
 </head>
 <body>
