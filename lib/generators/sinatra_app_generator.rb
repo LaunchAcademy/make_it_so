@@ -28,6 +28,11 @@ module MakeItSo
       template(file_path, File.join(app_path, file_path))
     end
 
+    def rakefile
+      file_path = 'Rakefile'
+      template(file_path, File.join(app_path, file_path))
+    end
+
     def view_files
       [
         'views/layout.erb',
@@ -61,6 +66,9 @@ module MakeItSo
         empty_directory File.join(app_path, 'spec/features')
         spec_helper = 'spec/spec_helper.rb'
         template(spec_helper, File.join(app_path, spec_helper))
+
+        dot_rspec = '.rspec'
+        template(dot_rspec, File.join(app_path, dot_rspec))
       end
     end
 

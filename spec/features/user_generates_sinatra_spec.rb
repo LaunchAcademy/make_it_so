@@ -51,8 +51,8 @@ describe 'user generates sinatra app' do
     expect(has_file?('public/javascripts/app.js')).to be(true)
   end
 
-  scenario 'creates a public/javascripts/app.css' do
-    expect(has_file?('public/javascripts/app.css')).to be(true)
+  scenario 'creates a public/stylesheets/app.css' do
+    expect(has_file?('public/stylesheets/app.css')).to be(true)
   end
 
   scenario 'creates a layout file' do
@@ -61,6 +61,14 @@ describe 'user generates sinatra app' do
 
   scenario 'creates an index file' do
     expect(has_file?('views/index.erb')).to be(true)
+  end
+
+  scenario 'creates a Rakefile' do
+    expect(has_file?('Rakefile')).to be(true)
+  end
+
+  scenario 'creates a .rspec file' do
+    expect(has_file?('.rspec')).to be(true)
   end
 
   context 'rspec' do
