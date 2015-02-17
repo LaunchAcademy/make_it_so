@@ -61,6 +61,11 @@ module MakeItSo
       template(file_path, File.join(app_path, file_path))
     end
 
+    def gitignore
+      file_path = '.gitignore'
+      template(file_path, File.join(app_path, file_path))
+    end
+
     def rspec
       if options.rspec?
         empty_directory File.join(app_path, 'spec/features')

@@ -67,13 +67,17 @@ describe 'user generates sinatra app' do
     expect(has_file?('Rakefile')).to be(true)
   end
 
-  scenario 'creates a .rspec file' do
-    expect(has_file?('.rspec')).to be(true)
+  scenario '.gitignore' do
+    expect(has_file?('.gitignore')).to be(true)
   end
 
   context 'rspec' do
     scenario 'creates a spec_helper' do
       expect(has_file?('spec/spec_helper.rb')).to be(true)
+    end
+
+    scenario 'creates a .rspec file' do
+      expect(has_file?('.rspec')).to be(true)
     end
 
     scenario 'creates a spec directory' do
