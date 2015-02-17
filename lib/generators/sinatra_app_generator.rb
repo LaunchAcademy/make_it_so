@@ -28,6 +28,24 @@ module MakeItSo
       template(file_path, File.join(app_path, file_path))
     end
 
+    def view_files
+      [
+        'views/layout.erb',
+        'views/index.erb'
+      ].each do |file_path|
+        template(file_path, File.join(app_path, file_path))
+      end
+    end
+
+    def asset_files
+      [
+        'public/javascripts/app.js',
+        'public/stylesheets/app.css'
+      ].each do |file_path|
+        create_file(File.join(app_path, file_path))
+      end
+    end
+
     def rackup_file
       file_path = 'config.ru'
       template(file_path, File.join(app_path, file_path))
