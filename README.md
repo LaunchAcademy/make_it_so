@@ -16,11 +16,17 @@ Install it yourself as:
 
 ## Usage
 
-```ruby
+
+### Rails
+
+In the terminal, run:
+
+```no-highlight
 make_it_so rails <app_name>
 ```
 
 Then run:
+
 ```ruby
 rake db:create
 rake db:migrate
@@ -30,13 +36,23 @@ rake db:migrate
 
 Inject javascript at the end of the body tag. Javascript should always be the last thing loaded on the page. In view logic you can do the following:
 
-```
+```erb
 <%= content_for :extra_footer do %>
   <script type="text/javascript">
     var widget = new Something.Widget('foo');
   </script>
 <% end %>
 ```
+
+### Sinatra
+
+In the terminal, run:
+
+```no-highlight
+make_it_so sinatra <app_name>
+```
+
+By default, the generator, will create a sinatra root complete with an RSpec configuration.
 
 ## Contributing
 
