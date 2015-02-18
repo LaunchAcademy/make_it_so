@@ -5,10 +5,6 @@ configure :development, :test do
   require 'pry'
 end
 
-configure do
-  set :views, 'app/views'
-end
-
 Dir[File.join(File.dirname(__FILE__), 'lib', '**', '*.rb')].each do |file|
   require file
   also_reload file
