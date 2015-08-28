@@ -100,17 +100,4 @@ describe 'user generates sinatra app' do
       expect(in_gemfile?('launchy')).to be(true)
     end
   end
-
-  def has_dir?(relative_path)
-    File.directory?(join_paths(app_path, relative_path))
-  end
-
-  def has_file?(relative_path)
-    FileTest.exists?(join_paths(app_path, relative_path))
-  end
-
-  def in_gemfile?(gem_name)
-    File.read(join_paths(app_path, 'Gemfile')).
-      match(/gem.*#{Regexp.escape(gem_name)}/).present?
-  end
 end

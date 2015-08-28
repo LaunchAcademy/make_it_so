@@ -15,5 +15,12 @@ module MakeItSo
       puts "#{args.first}"
       MakeItSo::SinatraAppGenerator.start(args)
     end
+
+    desc "gosu <app_name>",
+      "generates a gosu game template"
+    def gosu(*args)
+      puts "#{args.first}"
+      MakeItSo::GosuAppGenerator.start(args)
+    end
   end
 end
