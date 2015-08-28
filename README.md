@@ -54,6 +54,32 @@ make_it_so sinatra <app_name>
 
 By default, the generator, will create a sinatra root complete with an RSpec configuration.
 
+### Gosu
+
+In the terminal, run:
+```no-highlight
+make_it_so gosu <app_name>
+```
+
+By default, the generator, will create a gosu template complete with an RSpec configuration.
+
+The tree structure looks like:  
+
+```no-highlight  
+GosuGame
+├── Gemfile
+├── README.md
+├── game.rb
+├── img
+├── lib
+│   ├── bounding_box.rb
+│   └── keys.rb
+└── spec
+    └── spec_helper.rb
+```  
+
+To learn more about Gosu development [read through this tutorial](https://github.com/SpencerCDixon/Gosu-Tutorial)
+
 ## Contributing
 
 1. Fork it ( https://github.com/[my-github-username]/make_it_so/fork )
