@@ -13,8 +13,8 @@ describe 'user generates gosu app' do
     make_it_so!("gosu #{app_path}")
   end
 
-  scenario 'includes gosu in the game.rb file' do
-    expect(FileTest.exists?(join_paths(app_path, 'game.rb'))).
+  scenario 'includes gosu in the app.rb file' do
+    expect(FileTest.exists?(join_paths(app_path, 'app.rb'))).
       to be(true)
   end
 

@@ -23,7 +23,7 @@ module MakeItSo
     end
 
     def app_file
-      file_path = 'game.rb'
+      file_path = 'app.rb'
       template(file_path, File.join(app_path, file_path))
     end
 
