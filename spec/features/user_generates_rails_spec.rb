@@ -36,6 +36,12 @@ feature 'user generates rails app' do
     expect(File.read(app_layout)).to include('flash')
   end
 
+  scenario 'includes viewport meta tag in layout for mobile' do
+    app_layout = File.join(app_path, 'app/views/layouts/application.html.erb')
+    expect(File.read(app_layout)).to include('initial-scale=1.0')
+    expect(File.read(app_layout)).to include('viewport')
+  end
+
   context 'rspec' do
     it 'eliminates test/unit' do
       expect(FileTest.exists?(join_paths(app_path, 'test'))).to_not eq(true)
