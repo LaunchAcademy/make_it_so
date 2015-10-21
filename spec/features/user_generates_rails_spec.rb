@@ -70,9 +70,9 @@ feature 'user generates rails app' do
         expect(File.read(gemfile_path)).to include('factory_girl')
       end
 
-      it 'requires the factory_girl support file' do
+      it 'requires all support files, including factory girl' do
         expect(File.read(rails_spec_helper)).
-          to match(/require(.*)support\/factory_girl/)
+          to include("\nDir[Rails.root.join('spec/support/**/*.rb')].each { |f| require f }\n\n")
       end
     end
 
