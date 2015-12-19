@@ -45,6 +45,7 @@ module MakeItSo
       super
 
       build 'base_stylesheets'
+      build 'eliminate_byebug'
       unless options[:skip_javascript]
         build 'base_javascripts'
       end
