@@ -36,6 +36,12 @@ feature 'user generates rails app' do
     expect(File.read(app_layout)).to include('flash')
   end
 
+  context 'pry-rails' do
+    it 'is added as a dependency' do
+      expect(File.read(gemfile_path)).to match(/gem(.*)pry-rails/)
+    end
+  end
+
   context 'rspec' do
     it 'eliminates test/unit' do
       expect(FileTest.exists?(join_paths(app_path, 'test'))).to_not eq(true)

@@ -21,6 +21,10 @@ module MakeItSo
         end
       end
 
+      def pry_rails_dependency
+        self.gem 'pry-rails', group: [:development, :test]
+      end
+
       def fix_generators
         inject_into_class 'config/application.rb', 'Application' do
           snippet('application_generator.rb')

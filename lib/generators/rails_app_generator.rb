@@ -44,6 +44,7 @@ module MakeItSo
     def finish_template
       super
 
+      build 'pry_rails_dependency'
       build 'base_stylesheets'
       unless options[:skip_javascript]
         build 'base_javascripts'
