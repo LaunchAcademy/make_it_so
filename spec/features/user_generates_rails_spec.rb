@@ -102,6 +102,16 @@ feature 'user generates rails app' do
           to include("require 'shoulda-matchers'")
       end
     end
+
+    context 'teaspoon' do
+      it 'includes teaspoon-jasmine in the Gemfile' do
+        expect(File.read(gemfile_path)).to include('teaspoon-jasmine')
+      end
+
+      it 'generates a spec/javascripts directory' do
+        expect(FileTest.exists?(join_paths(app_path, 'spec/javascripts'))).to eq(true)
+      end
+    end
   end
 
   context 'devise' do

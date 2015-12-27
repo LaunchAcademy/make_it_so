@@ -100,6 +100,13 @@ module MakeItSo
         end
       end
 
+      def teaspoon_jasmine
+        self.gem 'teaspoon-jasmine'
+        after_bundle do
+          generate 'teaspoon:install'
+        end
+      end
+
       def devise_dependency
         self.gem 'devise'
 
