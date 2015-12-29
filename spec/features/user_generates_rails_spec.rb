@@ -45,7 +45,11 @@ feature 'user generates rails app' do
       spec_helper = join_paths(app_path, 'spec/spec_helper.rb')
       expect(FileTest.exists?(spec_helper)).to eq(true)
     end
-
+    context 'byebug' do
+      it 'comments out the byebug dependency' do
+        expect(File.read(gemfile_path)).to_not match(/gem(.*)byebug/)
+      end
+    end
     context 'capybara' do
       it 'includes capybara as a Gemfile dependency' do
         expect(File.read(gemfile_path)).to include('capybara')

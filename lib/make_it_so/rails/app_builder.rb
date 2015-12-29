@@ -27,6 +27,10 @@ module MakeItSo
         end
       end
 
+      def eliminate_byebug
+        gsub_file 'Gemfile', /gem '|"byebug'|"/, ''
+      end
+
       def rspec_dependency
         self.gem 'rspec-rails', group: [:development, :test]
         self.gem 'capybara', group: [:development, :test]
