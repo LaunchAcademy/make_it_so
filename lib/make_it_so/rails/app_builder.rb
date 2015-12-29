@@ -59,11 +59,7 @@ module MakeItSo
         self.gem 'factory_girl', group: [:development, :test]
         after_bundle do
           inside 'spec' do
-            insert_into_file 'rails_helper.rb',
-              after: rails_helper_insertion_hook do
-
-              "require File.join(File.dirname(__FILE__), 'support/factory_girl')\n"
-            end
+            uncomment_lines 'rails_helper.rb', /spec\/support\/\*\*\/\*.rb/
 
             inside 'support' do
               template 'factory_girl.rb'

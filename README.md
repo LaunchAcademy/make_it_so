@@ -3,7 +3,7 @@
 ![Make It So](http://images.simplysyndicated.com/wp-content/uploads/2014/07/make-it-so-captain.jpg)
 
 Make It So is a command line utility that makes it easy to create starting points
-for all apps ruby. Right now, it only supports Rails, but support for Sinatra,
+for all apps Ruby. Right now, it only supports Rails, but support for Sinatra,
 Gosu, and other paradigms are in progress.
 
 ## Installation
