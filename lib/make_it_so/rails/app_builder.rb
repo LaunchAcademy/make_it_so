@@ -32,7 +32,8 @@ module MakeItSo
       end
 
       def eliminate_byebug
-        gsub_file 'Gemfile', /gem '|"byebug'|"/, ''
+        both_lines = /^[[:space:]]*# Call 'byebug'.*gem 'byebug'.*?$\n/m
+        gsub_file 'Gemfile', both_lines, "\n"
       end
 
       def rspec_dependency
