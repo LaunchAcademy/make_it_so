@@ -36,6 +36,16 @@ feature 'user generates rails app' do
     expect(File.read(app_layout)).to include('flash')
   end
 
+  scenario 'creates a valid gemfile' do
+    words = ['source', '#', 'gem', 'group', 'end']
+
+    File.readlines('Gemfile').each do |line|
+      unless line.strip.empty?
+        expect(line.strip.start_with?(*words)).to eq(true)
+      end
+    end
+  end
+
   context 'pry-rails' do
     it 'is added as a dependency' do
       expect(File.read(gemfile_path)).to match(/gem(.*)pry-rails/)
@@ -51,11 +61,13 @@ feature 'user generates rails app' do
       spec_helper = join_paths(app_path, 'spec/spec_helper.rb')
       expect(FileTest.exists?(spec_helper)).to eq(true)
     end
+
     context 'byebug' do
-      it 'comments out the byebug dependency' do
+      it 'removes the byebug dependency' do
         expect(File.read(gemfile_path)).to_not match(/gem(.*)byebug/)
       end
     end
+
     context 'capybara' do
       it 'includes capybara as a Gemfile dependency' do
         expect(File.read(gemfile_path)).to include('capybara')
