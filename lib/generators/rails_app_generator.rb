@@ -55,7 +55,7 @@ module MakeItSo
       if options[:rspec]
         build 'rspec_dependency'
         #build 'fix_generators'
-        build 'factory_girl_rspec'
+        build 'factory_bot_rspec'
         build 'valid_attribute_rspec'
         build 'shoulda_rspec'
         build 'teaspoon_jasmine'

@@ -88,17 +88,17 @@ feature 'user generates rails app' do
       end
     end
 
-    context 'factory_girl' do
-      it 'includes a factory_girl support file' do
-        fg_support_path = join_paths(app_path, 'spec/support/factory_girl.rb')
-        expect(FileTest.exists?(fg_support_path)).to eq(true)
+    context 'factory_bot' do
+      it 'includes a factory_bot support file' do
+        fb_support_path = join_paths(app_path, 'spec/support/factory_bot.rb')
+        expect(FileTest.exists?(fb_support_path)).to eq(true)
       end
 
-      it 'includes the factory_girl gem' do
-        expect(File.read(gemfile_path)).to include('factory_girl')
+      it 'includes the factory_bot gem' do
+        expect(File.read(gemfile_path)).to include('factory_bot')
       end
 
-      it 'requires all support files, including factory girl' do
+      it 'requires all support files, including factory bot' do
         expect(File.read(rails_spec_helper)).
           to include("\nDir[Rails.root.join('spec/support/**/*.rb')].each { |f| require f }\n\n")
       end
