@@ -44,7 +44,9 @@ module MakeItSo
     def finish_template
       super
 
+      build 'pry_rails_dependency'
       build 'base_stylesheets'
+      build 'eliminate_byebug'
       unless options[:skip_javascript]
         build 'base_javascripts'
       end
@@ -56,6 +58,7 @@ module MakeItSo
         build 'factory_girl_rspec'
         build 'valid_attribute_rspec'
         build 'shoulda_rspec'
+        build 'teaspoon_jasmine'
       end
 
       if options[:devise]
