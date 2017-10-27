@@ -21,10 +21,19 @@ module MakeItSo
         end
       end
 
+      def pry_rails_dependency
+        self.gem 'pry-rails', group: [:development, :test]
+      end
+
       def fix_generators
         inject_into_class 'config/application.rb', 'Application' do
           snippet('application_generator.rb')
         end
+      end
+
+      def eliminate_byebug
+        both_lines = /^[[:space:]]*# Call 'byebug'.*gem 'byebug'.*?$\n/m
+        gsub_file 'Gemfile', both_lines, "\n"
       end
 
       def rspec_dependency
@@ -51,18 +60,14 @@ module MakeItSo
         end
       end
 
-      def factory_girl_rspec
-        self.gem 'factory_girl', group: [:development, :test]
+      def factory_bot_rspec
+        self.gem 'factory_bot', group: [:development, :test]
         after_bundle do
           inside 'spec' do
-            insert_into_file 'rails_helper.rb',
-              after: rails_helper_insertion_hook do
-
-              "require File.join(File.dirname(__FILE__), 'support/factory_girl')\n"
-            end
+            uncomment_lines 'rails_helper.rb', /spec\/support\/\*\*\/\*.rb/
 
             inside 'support' do
-              template 'factory_girl.rb'
+              template 'factory_bot.rb'
             end
           end
         end
@@ -100,6 +105,13 @@ module MakeItSo
         end
       end
 
+      def teaspoon_jasmine
+        self.gem 'teaspoon-jasmine'
+        after_bundle do
+          generate 'teaspoon:install'
+        end
+      end
+
       def devise_dependency
         self.gem 'devise'
 
@@ -113,8 +125,8 @@ module MakeItSo
               directory 'features'
 
               inside 'support' do
-                insert_into_file 'factory_girl.rb',
-                  after: "FactoryGirl.define do\n" do
+                insert_into_file 'factory_bot.rb',
+                  after: "FactoryBot.define do\n" do
 
                   snippet('user_factory.rb')
                 end

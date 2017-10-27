@@ -36,6 +36,28 @@ feature 'user generates rails app' do
     expect(File.read(app_layout)).to include('flash')
   end
 
+  scenario 'includes viewport meta tag in layout for mobile' do
+    app_layout = File.join(app_path, 'app/views/layouts/application.html.erb')
+    expect(File.read(app_layout)).to include('initial-scale=1.0')
+    expect(File.read(app_layout)).to include('viewport')
+  end
+
+  scenario 'creates a valid gemfile' do
+    words = ['source', '#', 'gem', 'group', 'end']
+
+    File.readlines('Gemfile').each do |line|
+      unless line.strip.empty?
+        expect(line.strip.start_with?(*words)).to eq(true)
+      end
+    end
+  end
+
+  context 'pry-rails' do
+    it 'is added as a dependency' do
+      expect(File.read(gemfile_path)).to match(/gem(.*)pry-rails/)
+    end
+  end
+
   context 'rspec' do
     it 'eliminates test/unit' do
       expect(FileTest.exists?(join_paths(app_path, 'test'))).to_not eq(true)
@@ -44,6 +66,12 @@ feature 'user generates rails app' do
     it 'inserts a spec_helper' do
       spec_helper = join_paths(app_path, 'spec/spec_helper.rb')
       expect(FileTest.exists?(spec_helper)).to eq(true)
+    end
+
+    context 'byebug' do
+      it 'removes the byebug dependency' do
+        expect(File.read(gemfile_path)).to_not match(/gem(.*)byebug/)
+      end
     end
 
     context 'capybara' do
@@ -60,19 +88,19 @@ feature 'user generates rails app' do
       end
     end
 
-    context 'factory_girl' do
-      it 'includes a factory_girl support file' do
-        fg_support_path = join_paths(app_path, 'spec/support/factory_girl.rb')
-        expect(FileTest.exists?(fg_support_path)).to eq(true)
+    context 'factory_bot' do
+      it 'includes a factory_bot support file' do
+        fb_support_path = join_paths(app_path, 'spec/support/factory_bot.rb')
+        expect(FileTest.exists?(fb_support_path)).to eq(true)
       end
 
-      it 'includes the factory_girl gem' do
-        expect(File.read(gemfile_path)).to include('factory_girl')
+      it 'includes the factory_bot gem' do
+        expect(File.read(gemfile_path)).to include('factory_bot')
       end
 
-      it 'requires the factory_girl support file' do
+      it 'requires all support files, including factory bot' do
         expect(File.read(rails_spec_helper)).
-          to match(/require(.*)support\/factory_girl/)
+          to include("\nDir[Rails.root.join('spec/support/**/*.rb')].each { |f| require f }\n\n")
       end
     end
 
@@ -100,6 +128,16 @@ feature 'user generates rails app' do
       it 'requires shoulda-matchers in the rails_helper' do
         expect(File.read(rails_spec_helper)).
           to include("require 'shoulda-matchers'")
+      end
+    end
+
+    context 'teaspoon' do
+      it 'includes teaspoon-jasmine in the Gemfile' do
+        expect(File.read(gemfile_path)).to include('teaspoon-jasmine')
+      end
+
+      it 'generates a spec/javascripts directory' do
+        expect(FileTest.exists?(join_paths(app_path, 'spec/javascripts'))).to eq(true)
       end
     end
   end

@@ -11,3 +11,5 @@ require "make_it_so/rails"
 
 require "make_it_so/command_line_interface"
 require "generators/rails_app_generator"
+require "generators/sinatra_app_generator"
+require "generators/gosu_app_generator"

@@ -37,14 +37,16 @@ module MakeItSo
       if @options[:rspec]
         # don't generate Test::Unit - we have to dup to unfreeze
         @options = @options.dup
-        @options[:skip_test_unit] = true
+        @options[:skip_test] = true
       end
     end
 
     def finish_template
       super
 
+      build 'pry_rails_dependency'
       build 'base_stylesheets'
+      build 'eliminate_byebug'
       unless options[:skip_javascript]
         build 'base_javascripts'
       end
@@ -53,9 +55,10 @@ module MakeItSo
       if options[:rspec]
         build 'rspec_dependency'
         #build 'fix_generators'
-        build 'factory_girl_rspec'
+        build 'factory_bot_rspec'
         build 'valid_attribute_rspec'
         build 'shoulda_rspec'
+        build 'teaspoon_jasmine'
       end
 
       if options[:devise]
