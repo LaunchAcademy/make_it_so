@@ -182,5 +182,9 @@ feature 'user generates rails app' do
     it 'generates foundation' do
       expect(File.read(css_manifest_path)).to include('foundation_and_overrides')
     end
+
+    it 'includes modernizr in the layout' do
+      expect(File.read(File.join(app_path, 'app/views/layouts/application.html.erb'))).to include('modernizr')
+    end
   end
 end
