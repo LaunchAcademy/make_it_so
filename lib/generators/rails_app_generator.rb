@@ -37,7 +37,7 @@ module MakeItSo
       if @options[:rspec]
         # don't generate Test::Unit - we have to dup to unfreeze
         @options = @options.dup
-        @options[:skip_test_unit] = true
+        @options[:skip_test] = true
       end
     end
 
