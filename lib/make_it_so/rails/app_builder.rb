@@ -139,7 +139,7 @@ module MakeItSo
       end
 
       def foundation_dependency
-        self.gem 'foundation-rails'
+        self.gem 'foundation-rails', '~> 5.0'
 
         after_bundle do
           generate 'foundation:install foundation'
