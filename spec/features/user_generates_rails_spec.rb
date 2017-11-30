@@ -12,6 +12,7 @@ feature 'user generates rails app' do
   let(:css_manifest_path) { join_paths(app_path, 'app/assets/stylesheets/application.css') }
 
   let(:gemfile_path) { join_paths(app_path, 'Gemfile')}
+  let(:package_json_path) { join_paths(app_path, 'package.json')}
   let(:rails_spec_helper) { join_paths(app_path, 'spec/rails_helper.rb')}
 
   before(:all) do
@@ -46,6 +47,16 @@ feature 'user generates rails app' do
     words = ['source', '#', 'gem', 'group', 'end']
 
     File.readlines('Gemfile').each do |line|
+      unless line.strip.empty?
+        expect(line.strip.start_with?(*words)).to eq(true)
+      end
+    end
+  end
+
+  scenario 'creates a valid package.json' do
+    words = ['name', 'version', 'description', 'main', 'scripts' ]
+
+    File.readlines('package.json').each do |line|
       unless line.strip.empty?
         expect(line.strip.start_with?(*words)).to eq(true)
       end
@@ -186,5 +197,18 @@ feature 'user generates rails app' do
     it 'includes modernizr in the layout' do
       expect(File.read(File.join(app_path, 'app/views/layouts/application.html.erb'))).to include('modernizr')
     end
+  end
+
+  context 'react' do
+    it 'generates a react folder' do
+      expect(FileTest.exists?(join_paths(app_path, 'react'))).to eq(true)
+    end
+
+    it 'includes * in package.json' do
+      in_package_json?(File.join(app_path, 'package.json')) do |json|
+        return true if json["devDependencies"]["jasmine-enzyme"] != nil
+      end
+    end
+
   end
 end

@@ -36,6 +36,10 @@ module MakeItSo
         gsub_file 'Gemfile', both_lines, "\n"
       end
 
+      def react
+
+      end
+
       def rspec_dependency
         self.gem 'rspec-rails', group: [:development, :test]
         self.gem 'capybara', group: [:development, :test]

@@ -24,13 +24,33 @@ module MakeItSo
     class_option :foundation,
       type: :boolean,
       default: true,
-      desc: 'generate foundation support'
+      desc: 'Generate foundation support'
 
     # turbolinks is the devil
     class_option :skip_turbolinks,
       type: :boolean,
       default: true,
       desc: 'Skip turbolinks gem'
+
+    class_option :skip_coffee,
+      type: :boolean,
+      default: true,
+      desc: 'Skip coffee gem'
+
+    class_option :skip_spring,
+      type: :boolean,
+      default: true,
+      desc: 'Skip spring gem'
+
+    class_option :react,
+      type: :boolean,
+      default: true,
+      desc: 'Generate React setup'
+
+    class_option :react_testing,
+      type: :boolean,
+      default: true,
+      desc: 'Generate React test suite setup'
 
     def initialize(*args)
       super

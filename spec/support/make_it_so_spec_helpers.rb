@@ -44,6 +44,12 @@ module MakeItSoSpecHelpers
     File.read(join_paths(app_path, 'Gemfile')).
       match(/gem.*#{Regexp.escape(gem_name)}/).present?
   end
+
+  def in_package_json?(path, &block)
+    contents = File.read(path)
+    json = JSON.parse(contents)
+    yield(json)
+  end
 end
 
 RSpec.configure do |config|
