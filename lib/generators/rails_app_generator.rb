@@ -88,6 +88,10 @@ module MakeItSo
       if options[:foundation]
         build 'foundation_dependency'
       end
+
+      if options[:react]
+        build 'react'
+      end
     end
 
     protected

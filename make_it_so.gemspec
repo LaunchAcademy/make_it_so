@@ -20,6 +20,7 @@ Gem::Specification.new do |spec|
 
   spec.add_dependency "thor"
   spec.add_dependency "railties", "~> 5.1"
+  spec.add_dependency "json"
 
   spec.add_development_dependency "bundler", "~> 1.7"
   spec.add_development_dependency "appraisal"

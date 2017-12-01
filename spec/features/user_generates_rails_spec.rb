@@ -53,16 +53,6 @@ feature 'user generates rails app' do
     end
   end
 
-  scenario 'creates a valid package.json' do
-    words = ['name', 'version', 'description', 'main', 'scripts' ]
-
-    File.readlines('package.json').each do |line|
-      unless line.strip.empty?
-        expect(line.strip.start_with?(*words)).to eq(true)
-      end
-    end
-  end
-
   context 'pry-rails' do
     it 'is added as a dependency' do
       expect(File.read(gemfile_path)).to match(/gem(.*)pry-rails/)
@@ -200,13 +190,13 @@ feature 'user generates rails app' do
   end
 
   context 'react' do
-    it 'generates a react folder' do
-      expect(FileTest.exists?(join_paths(app_path, 'react'))).to eq(true)
+    it 'generates a packs file' do
+      expect(FileTest.exists?(join_paths(app_path, 'app/javascript/packs/application.js'))).to eq(true)
     end
 
-    it 'includes * in package.json' do
+    it 'includes react in package.json' do
       in_package_json?(File.join(app_path, 'package.json')) do |json|
-        return true if json["devDependencies"]["jasmine-enzyme"] != nil
+        return true if json["devDependencies"]["react"] != nil
       end
     end
 
