@@ -78,7 +78,6 @@ module MakeItSo
         build 'factory_bot_rspec'
         build 'valid_attribute_rspec'
         build 'shoulda_rspec'
-        build 'teaspoon_jasmine'
       end
 
       if options[:devise]
