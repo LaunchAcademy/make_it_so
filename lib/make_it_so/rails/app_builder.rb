@@ -1,4 +1,5 @@
 require 'rails/generators/rails/app/app_generator'
+require 'json'
 
 module MakeItSo
   module Rails
@@ -43,13 +44,39 @@ module MakeItSo
           rake 'webpacker:install'
           rake 'webpacker:install:react'
 
-          unparsed_json = File.read(snippet_path('react_dependencies.json'))
+          unparsed_json = snippet('react_dependencies.json')
           parsed_json = JSON.parse(unparsed_json)
 
           modify_json(package_json_file) do |json|
-            json["dependencies"] = parsed_json["dependencies"]
-            json["devDependencies"] = parsed_json["devDependencies"]
+            ["dependencies", "devDependencies"].each do |key|
+              json[key] ||= {}
+              json[key].merge!(parsed_json[key])
+            end
           end
+
+          rake 'yarn:install'
+        end
+      end
+
+      def karma
+        after_bundle do
+          unparsed_json = snippet('js_testing_deps.json')
+          parsed_json = JSON.parse(unparsed_json)
+
+          modify_json(package_json_file) do |json|
+            json["devDependencies"] ||= {}
+            json["devDependencies"].merge!(parsed_json["devDependencies"])
+            json["scripts"] ||= {}
+            json["scripts"]["test"] = "node_modules/.bin/karma start karma.conf.js"
+          end
+
+          template 'karma.conf.js'
+          inside 'spec/javascript' do
+            template 'exampleTest.js'
+            template 'testHelper.js'
+          end
+
+          rake 'yarn:install'
         end
       end
 
@@ -177,7 +204,7 @@ module MakeItSo
       def modify_json(file, &block)
         json = parse_json_file(file)
         block.call(json)
-        File.write(file, json.to_json)
+        File.write(file, JSON.pretty_generate(json))
       end
 
       def parse_json_file(file)

@@ -47,10 +47,10 @@ module MakeItSo
       default: true,
       desc: 'Generate React setup'
 
-    class_option :react_testing,
+    class_option :karma,
       type: :boolean,
       default: true,
-      desc: 'Generate React test suite setup'
+      desc: 'Generate karma testing setup'
 
     def initialize(*args)
       super
@@ -90,6 +90,10 @@ module MakeItSo
 
       if options[:react]
         build 'react'
+      end
+
+      if options[:karma]
+        build 'karma'
       end
     end
 
