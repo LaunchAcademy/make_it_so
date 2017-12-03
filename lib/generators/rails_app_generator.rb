@@ -24,13 +24,33 @@ module MakeItSo
     class_option :foundation,
       type: :boolean,
       default: true,
-      desc: 'generate foundation support'
+      desc: 'Generate foundation support'
 
     # turbolinks is the devil
     class_option :skip_turbolinks,
       type: :boolean,
       default: true,
       desc: 'Skip turbolinks gem'
+
+    class_option :skip_coffee,
+      type: :boolean,
+      default: true,
+      desc: 'Skip coffee gem'
+
+    class_option :skip_spring,
+      type: :boolean,
+      default: true,
+      desc: 'Skip spring gem'
+
+    class_option :react,
+      type: :boolean,
+      default: true,
+      desc: 'Generate React setup'
+
+    class_option :karma,
+      type: :boolean,
+      default: true,
+      desc: 'Generate karma testing setup'
 
     def initialize(*args)
       super
@@ -58,7 +78,6 @@ module MakeItSo
         build 'factory_bot_rspec'
         build 'valid_attribute_rspec'
         build 'shoulda_rspec'
-        build 'teaspoon_jasmine'
       end
 
       if options[:devise]
@@ -67,6 +86,14 @@ module MakeItSo
 
       if options[:foundation]
         build 'foundation_dependency'
+      end
+
+      if options[:react]
+        build 'react'
+      end
+
+      if options[:karma]
+        build 'karma'
       end
     end
 

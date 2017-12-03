@@ -12,6 +12,7 @@ feature 'user generates rails app' do
   let(:css_manifest_path) { join_paths(app_path, 'app/assets/stylesheets/application.css') }
 
   let(:gemfile_path) { join_paths(app_path, 'Gemfile')}
+  let(:package_json_path) { join_paths(app_path, 'package.json')}
   let(:rails_spec_helper) { join_paths(app_path, 'spec/rails_helper.rb')}
 
   before(:all) do
@@ -130,16 +131,6 @@ feature 'user generates rails app' do
           to include("require 'shoulda-matchers'")
       end
     end
-
-    context 'teaspoon' do
-      it 'includes teaspoon-jasmine in the Gemfile' do
-        expect(File.read(gemfile_path)).to include('teaspoon-jasmine')
-      end
-
-      it 'generates a spec/javascripts directory' do
-        expect(FileTest.exists?(join_paths(app_path, 'spec/javascripts'))).to eq(true)
-      end
-    end
   end
 
   context 'devise' do
@@ -185,6 +176,55 @@ feature 'user generates rails app' do
 
     it 'includes modernizr in the layout' do
       expect(File.read(File.join(app_path, 'app/views/layouts/application.html.erb'))).to include('modernizr')
+    end
+  end
+
+  context 'react' do
+    it 'generates a packs file' do
+      expect(FileTest.exists?(join_paths(app_path, 'app/javascript/packs/application.js'))).to eq(true)
+    end
+
+    it 'includes react in package.json' do
+      in_package_json?(File.join(app_path, 'package.json')) do |json|
+        expect(json["dependencies"]["react"]).to_not be_nil
+      end
+    end
+
+    it 'includes react-dom in package.json' do
+      in_package_json?(File.join(app_path, 'package.json')) do |json|
+        expect(json["dependencies"]["react-dom"]).to_not be_nil
+      end
+    end
+  end
+
+  context 'karma' do
+    it 'creates a karma.config' do
+      karma_config = File.join(app_path, 'karma.conf.js')
+      expect(FileTest.exists?(karma_config)).to eq(true)
+    end
+
+    it 'creates a testHelper.js' do
+      test_helper = File.join(app_path, 'spec/javascript/testHelper.js')
+      expect(FileTest.exists?(test_helper)).to eq(true)
+    end
+
+    it 'includes karma in package.json' do
+      in_package_json?(File.join(app_path, 'package.json')) do |json|
+        expect(json["devDependencies"]["karma"]).to_not be_nil
+      end
+    end
+
+    it 'includes jasmine in package.json' do
+      in_package_json?(File.join(app_path, 'package.json')) do |json|
+        expect(json["devDependencies"]["jasmine-core"]).to_not be_nil
+      end
+    end
+
+    it 'includes react-addons-test-utils' do
+      in_package_json?(File.join(app_path, 'package.json')) do |json|
+        expect(json["devDependencies"]["react-addons-test-utils"]).to_not be_nil
+      end
+
     end
   end
 end

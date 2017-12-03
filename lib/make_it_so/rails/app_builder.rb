@@ -1,4 +1,5 @@
 require 'rails/generators/rails/app/app_generator'
+require 'json'
 
 module MakeItSo
   module Rails
@@ -34,6 +35,49 @@ module MakeItSo
       def eliminate_byebug
         both_lines = /^[[:space:]]*# Call 'byebug'.*gem 'byebug'.*?$\n/m
         gsub_file 'Gemfile', both_lines, "\n"
+      end
+
+      def react
+        self.gem 'webpacker', '~> 3.0.2'
+
+        after_bundle do
+          rake 'webpacker:install'
+          rake 'webpacker:install:react'
+
+          unparsed_json = snippet('react_dependencies.json')
+          parsed_json = JSON.parse(unparsed_json)
+
+          modify_json(package_json_file) do |json|
+            ["dependencies", "devDependencies"].each do |key|
+              json[key] ||= {}
+              json[key].merge!(parsed_json[key])
+            end
+          end
+
+          rake 'yarn:install'
+        end
+      end
+
+      def karma
+        after_bundle do
+          unparsed_json = snippet('js_testing_deps.json')
+          parsed_json = JSON.parse(unparsed_json)
+
+          modify_json(package_json_file) do |json|
+            json["devDependencies"] ||= {}
+            json["devDependencies"].merge!(parsed_json["devDependencies"])
+            json["scripts"] ||= {}
+            json["scripts"]["test"] = "node_modules/.bin/karma start karma.conf.js"
+          end
+
+          template 'karma.conf.js'
+          inside 'spec/javascript' do
+            template 'exampleTest.js'
+            template 'testHelper.js'
+          end
+
+          rake 'yarn:install'
+        end
       end
 
       def rspec_dependency
@@ -105,13 +149,6 @@ module MakeItSo
         end
       end
 
-      def teaspoon_jasmine
-        self.gem 'teaspoon-jasmine'
-        after_bundle do
-          generate 'teaspoon:install'
-        end
-      end
-
       def devise_dependency
         self.gem 'devise'
 
@@ -152,6 +189,29 @@ module MakeItSo
       end
 
       protected
+      PACKAGE_PATH = 'package.json'
+      WEBCONFIG_PATH = 'webpack.config.js'
+
+      protected
+      def parsed_package_json
+        @package_json ||= parse_json_file(package_json_file)
+      end
+
+      def package_json_file
+        File.join(destination_root, PACKAGE_PATH)
+      end
+
+      def modify_json(file, &block)
+        json = parse_json_file(file)
+        block.call(json)
+        File.write(file, JSON.pretty_generate(json))
+      end
+
+      def parse_json_file(file)
+        contents = File.read(file)
+        JSON.parse(contents)
+      end
+
       def rails_helper_insertion_hook
         "require 'rspec/rails'\n"
       end

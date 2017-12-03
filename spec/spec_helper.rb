@@ -1,6 +1,7 @@
 require 'bundler/setup'
 require 'rspec'
 require 'capybara/rspec'
+require 'json'
 
 Bundler.require(:default, :test)
 
