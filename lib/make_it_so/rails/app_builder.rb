@@ -38,7 +38,7 @@ module MakeItSo
       end
 
       def react
-        self.gem 'webpacker', '~> 3.0.2'
+        self.gem 'webpacker', '~> 3.2'
 
         after_bundle do
           rake 'webpacker:install'
@@ -48,10 +48,13 @@ module MakeItSo
           parsed_json = JSON.parse(unparsed_json)
 
           modify_json(package_json_file) do |json|
-            ["dependencies", "devDependencies"].each do |key|
+            ["dependencies"].each do |key|
               json[key] ||= {}
               json[key].merge!(parsed_json[key])
             end
+
+            json["scripts"] ||= {}
+            json["scripts"]["start"] = "./bin/webpack-dev-server"
           end
 
           rake 'yarn:install'
