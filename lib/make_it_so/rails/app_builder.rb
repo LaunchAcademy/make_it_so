@@ -15,7 +15,7 @@ module MakeItSo
         inside 'app/assets/javascripts' do
           template 'application.js'
           jquery_files = "//= require jquery\n" +
-            "//= require jquery-ujs\n"
+            "//= require jquery_ujs\n"
           gsub_file 'application.js', "//= require rails-ujs\n", jquery_files
         end
       end
@@ -196,7 +196,7 @@ module MakeItSo
           inside 'app/assets/javascripts' do
             insert_into_file 'application.js',
               "//= require foundation\n",
-              after: "//= require jquery-ujs\n"
+              after: "//= require jquery_ujs\n"
           end
         end
       end
