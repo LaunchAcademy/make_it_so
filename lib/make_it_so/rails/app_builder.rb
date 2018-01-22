@@ -11,8 +11,12 @@ module MakeItSo
       end
 
       def base_javascripts
+        self.gem 'jquery-rails'
         inside 'app/assets/javascripts' do
           template 'application.js'
+          jquery_files = "//= require jquery\n" +
+            "//= require jquery-ujs\n"
+          gsub_file 'application.js', "//= require rails-ujs\n", jquery_files
         end
       end
 
@@ -188,6 +192,12 @@ module MakeItSo
           # there is a pull request open to skip this:
           # https://github.com/zurb/foundation-rails/pull/108
           remove_file 'app/views/layouts/foundation.html.erb'
+
+          inside 'app/assets/javascripts' do
+            insert_into_file 'application.js',
+              "//= require foundation\n",
+              after: "//= require jquery-ujs\n"
+          end
         end
       end
 
