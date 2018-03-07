@@ -42,7 +42,7 @@ module MakeItSo
       end
 
       def react
-        self.gem 'webpacker', '~> 3.2'
+        self.gem 'webpacker', '~> 3.3'
 
         after_bundle do
           rake 'webpacker:install'
@@ -52,7 +52,7 @@ module MakeItSo
           parsed_json = JSON.parse(unparsed_json)
 
           modify_json(package_json_file) do |json|
-            ["dependencies"].each do |key|
+            ["dependencies", "devDependencies"].each do |key|
               json[key] ||= {}
               json[key].merge!(parsed_json[key])
             end
