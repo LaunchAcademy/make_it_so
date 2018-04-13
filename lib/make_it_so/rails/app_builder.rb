@@ -10,6 +10,12 @@ module MakeItSo
         end
       end
 
+      def application_record
+        inside 'app/models' do
+          template 'application_record.rb'
+        end
+      end
+
       def base_javascripts
         self.gem 'jquery-rails'
         inside 'app/assets/javascripts' do

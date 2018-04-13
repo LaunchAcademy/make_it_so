@@ -72,6 +72,7 @@ module MakeItSo
       end
 
       build 'application_controller'
+      build 'application_record'
       if options[:rspec]
         build 'rspec_dependency'
         #build 'fix_generators'
