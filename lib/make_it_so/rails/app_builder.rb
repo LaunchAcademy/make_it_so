@@ -180,6 +180,8 @@ module MakeItSo
 
                   snippet('user_factory.rb')
                 end
+
+                template 'devise_controller_spec.rb'
               end
             end
           end
