@@ -130,6 +130,17 @@ module MakeItSo
         end
       end
 
+      def database_cleaner_rspec
+        self.gem 'database_cleaner', group: [:development, :test]
+        after_bundle do
+          inside 'spec' do
+            inside 'support' do
+              template 'database_cleaner.rb'
+            end
+          end
+        end
+      end
+
       def valid_attribute_rspec
         self.gem 'valid_attribute', group: [:development, :test]
         after_bundle do
