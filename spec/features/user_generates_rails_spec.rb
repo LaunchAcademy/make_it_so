@@ -224,7 +224,59 @@ feature 'user generates rails app' do
       in_package_json?(File.join(app_path, 'package.json')) do |json|
         expect(json["devDependencies"]["react-addons-test-utils"]).to_not be_nil
       end
+    end
+  end
 
+end
+
+feature 'jest' do
+  def app_name
+    'dummy_rails'
+  end
+
+  def app_path
+    join_paths(tmp_path, app_name)
+  end
+
+  before(:all) do
+    make_it_so!("rails #{app_name} --jest")
+  end
+
+  let(:package_json_path) { File.join(app_path, 'package.json') }
+
+
+  scenario 'adds jest as a dependency' do
+    in_package_json?(package_json_path) do |json|
+      expect(json["devDependencies"]["jest"]).to_not be_nil
+    end
+  end
+
+  scenario 'adds jest as the test script in package.json' do
+    in_package_json?(package_json_path) do |json|
+      expect(json["scripts"]["test"]).to include("jest")
+    end
+  end
+
+  scenario 'adds spec/javascripts to roots' do
+    in_package_json?(package_json_path) do |json|
+      expect(json["jest"]).to_not be_nil
+      expect(json["jest"]["roots"]).to include("spec/javascript")
+    end
+  end
+
+  scenario 'adds node_modules to modules directory' do
+    in_package_json?(package_json_path) do |json|
+      expect(json["jest"]).to_not be_nil
+      expect(json["jest"]["moduleDirectories"]).to_not be_nil
+      expect(json["jest"]["moduleDirectories"]).to include("node_modules")
+    end
+  end
+
+  scenario 'adds app/javascript to modules directory' do
+    in_package_json?(package_json_path) do |json|
+      expect(json["jest"]).to_not be_nil
+      expect(json["jest"]["moduleDirectories"]).to_not be_nil
+      expect(json["jest"]["moduleDirectories"]).to include("app/javascript")
     end
   end
 end
