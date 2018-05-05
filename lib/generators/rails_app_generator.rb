@@ -52,6 +52,11 @@ module MakeItSo
       default: true,
       desc: 'Generate karma testing setup'
 
+    class_option :jest,
+      type: :boolean,
+      default: false,
+      desc: 'Generate jest testing setup'
+
     def initialize(*args)
       super
       if @options[:rspec]
@@ -92,7 +97,9 @@ module MakeItSo
         build 'react'
       end
 
-      if options[:karma]
+      if options[:jest]
+        build 'jest'
+      elsif options[:karma]
         build 'karma'
       end
     end

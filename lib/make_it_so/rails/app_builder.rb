@@ -87,6 +87,30 @@ module MakeItSo
         end
       end
 
+      def jest
+        after_bundle do
+          run 'yarn add jest babel-jest --dev'
+          run 'mkdir -p spec/javascript'
+          modify_json(package_json_file) do |json|
+            json["scripts"] ||= {}
+            json["scripts"]["test"] = "node_modules/.bin/jest"
+            json["scripts"]["test:dev"] = "node_modules/.bin/jest --notify --watch"
+            json["jest"] ||= {}
+            json["jest"].merge!({
+              "roots": [
+                "spec/javascript"
+              ],
+              "moduleDirectories": [
+                "node_modules",
+                "app/javascript"
+              ]
+            })
+          end
+
+          rake 'yarn:install'
+        end
+      end
+
       def rspec_dependency
         self.gem 'rspec-rails', group: [:development, :test]
         self.gem 'capybara', group: [:development, :test]

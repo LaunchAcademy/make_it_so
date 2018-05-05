@@ -3,10 +3,10 @@ module MakeItSo
   class CommandLineInterface < Thor
     desc "rails <app_name>",
       "generates a rails application based on your specifications"
-    option :devise
+    option :devise, type: :boolean
+    option :jest, type: :boolean
     def rails(app_name)
-      puts "#{app_name}"
-      MakeItSo::RailsAppGenerator.start([app_name])
+      MakeItSo::RailsAppGenerator.start(ARGV[1..-1])
     end
 
     desc "sinatra <app_name>",
