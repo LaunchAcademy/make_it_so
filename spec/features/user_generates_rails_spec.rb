@@ -131,6 +131,17 @@ feature 'user generates rails app' do
           to include("require 'shoulda-matchers'")
       end
     end
+
+    context 'database_cleaner' do
+      it 'includes database_cleaner in the gemfile' do
+        expect(File.read(gemfile_path)).to include('database_cleaner')
+      end
+
+      it 'creates the database_cleaner support file' do
+        support_path = join_paths(app_path, 'spec/support/database_cleaner.rb')
+        expect(FileTest.exists?(support_path)).to eq(true)
+      end
+    end
   end
 
   context 'devise' do
