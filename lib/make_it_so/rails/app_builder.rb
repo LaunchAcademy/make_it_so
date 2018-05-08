@@ -95,8 +95,19 @@ module MakeItSo
 
       def jest
         after_bundle do
-          run 'yarn add jest babel-jest --dev'
-          run 'mkdir -p spec/javascript'
+          deps = [
+            'jest',
+            'babel-jest',
+            'enzyme-adapter-react-15.4',
+            'react-addons-test-utils'
+          ]
+          run "yarn add #{deps.join(' ')} --dev"
+
+          run 'mkdir -p spec/javascript/support'
+          inside 'spec/javascript/support' do
+            template 'enzyme.js'
+          end
+
           modify_json(package_json_file) do |json|
             json["scripts"] ||= {}
             json["scripts"]["test"] = "node_modules/.bin/jest"
@@ -109,7 +120,22 @@ module MakeItSo
               "moduleDirectories": [
                 "node_modules",
                 "app/javascript"
+              ],
+              "setupFiles": [
+                "./spec/javascript/support/enzyme.js"
               ]
+            })
+          end
+
+          modify_json(File.join(destination_root, '.babelrc')) do |json|
+            json["env"] ||= {}
+            json["env"]["test"] ||= {}
+            json["env"]["test"].merge!({
+              "env": {
+                "test": {
+                  "presets": ["react", "env"],
+                }
+              }
             })
           end
 

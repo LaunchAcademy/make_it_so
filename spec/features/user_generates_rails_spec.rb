@@ -290,4 +290,16 @@ feature 'jest' do
       expect(json["jest"]["moduleDirectories"]).to include("app/javascript")
     end
   end
+
+  scenario 'adds a spec/javascript/support/enzyme.js file' do
+    support_file = File.join(app_path, 'spec/javascript/support/enzyme.js')
+    expect(FileTest.exists?(support_file)).to eq(true)
+  end
+
+  scenario 'adds spec/javascript/support/enzyme.js to setup' do
+    in_package_json?(package_json_path) do |json|
+      expect(json["jest"]).to_not be_nil
+      expect(json["jest"]["setupFiles"]).to include('./spec/javascript/support/enzyme.js')
+    end
+  end
 end
