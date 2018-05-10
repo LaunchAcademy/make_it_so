@@ -213,12 +213,8 @@ module MakeItSo
           group: [:development, :test],
           require: false
         after_bundle do
-          inside 'spec' do
-            insert_into_file 'rails_helper.rb',
-              after: rails_helper_insertion_hook do
-
-               "require 'shoulda-matchers'\n"
-            end
+          inside 'spec/support' do
+            template 'shoulda.rb'
           end
         end
       end

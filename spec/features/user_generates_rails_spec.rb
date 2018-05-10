@@ -126,9 +126,8 @@ feature 'user generates rails app' do
         expect(File.read(gemfile_path)).to include('shoulda-matchers')
       end
 
-      it 'requires shoulda-matchers in the rails_helper' do
-        expect(File.read(rails_spec_helper)).
-          to include("require 'shoulda-matchers'")
+      it 'includes a shoulda file in the support directory' do
+        expect(FileTest.exists?(join_paths(app_path, 'spec/support/shoulda.rb')))
       end
     end
 
