@@ -301,4 +301,11 @@ feature 'jest' do
       expect(json["jest"]["setupFiles"]).to include('./spec/javascript/support/enzyme.js')
     end
   end
+
+  scenario 'adds spec/javascript/support/jest-fetch-mock.js to setup' do
+    in_package_json?(package_json_path) do |json|
+      expect(json["jest"]).to_not be_nil
+      expect(json["jest"]["setupFiles"]).to include('./spec/javascript/support/jest-fetch-mock.js')
+    end
+  end
 end

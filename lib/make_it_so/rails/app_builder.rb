@@ -99,13 +99,15 @@ module MakeItSo
             'jest',
             'babel-jest',
             'enzyme-adapter-react-15.4',
-            'react-addons-test-utils'
+            'react-addons-test-utils',
+            'jest-fetch-mock'
           ]
           run "yarn add #{deps.join(' ')} --dev"
 
           run 'mkdir -p spec/javascript/support'
           inside 'spec/javascript/support' do
             template 'enzyme.js'
+            template 'jest-fetch-mock.js'
           end
 
           modify_json(package_json_file) do |json|
@@ -114,6 +116,7 @@ module MakeItSo
             json["scripts"]["test:dev"] = "node_modules/.bin/jest --notify --watch"
             json["jest"] ||= {}
             json["jest"].merge!({
+              "automock": false,
               "roots": [
                 "spec/javascript"
               ],
@@ -122,7 +125,8 @@ module MakeItSo
                 "app/javascript"
               ],
               "setupFiles": [
-                "./spec/javascript/support/enzyme.js"
+                "./spec/javascript/support/enzyme.js",
+                "./spec/javascript/support/jest-fetch-mock.js"
               ]
             })
           end
