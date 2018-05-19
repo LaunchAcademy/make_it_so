@@ -78,6 +78,8 @@ module MakeItSo
 
       build 'application_controller'
       build 'application_record'
+      build 'dotenv'
+
       if options[:rspec]
         build 'rspec_dependency'
         #build 'fix_generators'

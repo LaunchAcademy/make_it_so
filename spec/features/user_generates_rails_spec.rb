@@ -237,6 +237,23 @@ feature 'user generates rails app' do
     end
   end
 
+  context 'dotenv' do
+    it 'adds dotenv-rails to Gemfile' do
+      expect(File.read(gemfile_path)).to match(/gem(.*)dotenv-rails/)
+    end
+
+    it 'adds .env to gitignore' do
+      expect(File.read(File.join(app_path, '.gitignore'))).to include(".env\n")
+    end
+
+    it 'creates a .env file' do
+      expect(FileTest.exists?(File.join(app_path, '.env'))).to eq(true)
+    end
+
+    it 'creates a .env.example file' do
+      expect(FileTest.exists?(File.join(app_path, '.env.example'))).to eq(true)
+    end
+  end
 end
 
 feature 'jest' do

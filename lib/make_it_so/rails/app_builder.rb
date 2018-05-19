@@ -147,6 +147,16 @@ module MakeItSo
         end
       end
 
+      def dotenv
+        self.gem 'dotenv-rails', group: [:development, :test]
+        template '.env'
+        template '.env.example'
+
+        append_to_file '.gitignore' do
+          ".env\n"
+        end
+      end
+
       def rspec_dependency
         self.gem 'rspec-rails', group: [:development, :test]
         self.gem 'capybara', group: [:development, :test]
