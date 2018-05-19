@@ -1,6 +1,5 @@
 require 'rubygems'
 require 'bundler/setup'
-Bundler.setup(:default)
 
 module MakeItSo
   def self.source_root(template_category = nil)

@@ -21,7 +21,7 @@ module MakeItSoSpecHelpers
   end
 
   def tmp_path
-    '/tmp/make_it_so'
+    File.join(Dir.tmpdir, 'make_it_so')
   end
 
   def root_path
