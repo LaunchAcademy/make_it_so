@@ -44,7 +44,7 @@ feature 'user generates rails app' do
   end
 
   scenario 'creates a valid gemfile' do
-    words = ['source', '#', 'gem', 'group', 'end']
+    words = ['source', '#', 'gem', 'group', 'end', 'ruby']
 
     File.readlines('Gemfile').each do |line|
       unless line.strip.empty?
