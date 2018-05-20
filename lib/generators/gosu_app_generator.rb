@@ -28,8 +28,9 @@ module MakeItSo
     end
 
     def readme
-      file_path = 'README.md'
-      run "touch #{file_path}"
+      inside app_path do
+        create_file "README.md", "# README\n\n"
+      end
     end
 
     def lib
