@@ -17,7 +17,7 @@ module MakeItSo
       end
 
       def base_javascripts
-        self.gem 'jquery-rails'
+        @generator.gem 'jquery-rails'
         inside 'app/assets/javascripts' do
           template 'application.js'
           jquery_files = "//= require jquery\n" +
@@ -33,7 +33,7 @@ module MakeItSo
       end
 
       def pry_rails_dependency
-        self.gem 'pry-rails', group: [:development, :test]
+        @generator.gem 'pry-rails', group: [:development, :test]
       end
 
       def fix_generators
@@ -48,7 +48,7 @@ module MakeItSo
       end
 
       def react
-        self.gem 'webpacker', '~> 3.3'
+        @generator.gem 'webpacker', '~> 3.3'
 
         after_bundle do
           rake 'webpacker:install'
@@ -148,7 +148,7 @@ module MakeItSo
       end
 
       def dotenv
-        self.gem 'dotenv-rails', group: [:development, :test]
+        @generator.gem 'dotenv-rails', group: [:development, :test]
         template '.env'
         template '.env.example'
 
@@ -158,9 +158,9 @@ module MakeItSo
       end
 
       def rspec_dependency
-        self.gem 'rspec-rails', group: [:development, :test]
-        self.gem 'capybara', group: [:development, :test]
-        self.gem 'launchy', group: [:development, :test]
+        @generator.gem 'rspec-rails', group: [:development, :test]
+        @generator.gem 'capybara', group: [:development, :test]
+        @generator.gem 'launchy', group: [:development, :test]
 
         after_bundle do
           #stop spring in case it is running - it will hang
@@ -182,7 +182,7 @@ module MakeItSo
       end
 
       def factory_bot_rspec
-        self.gem 'factory_bot', group: [:development, :test]
+        @generator.gem 'factory_bot', group: [:development, :test]
         after_bundle do
           inside 'spec' do
             uncomment_lines 'rails_helper.rb', /spec\/support\/\*\*\/\*.rb/
@@ -195,7 +195,7 @@ module MakeItSo
       end
 
       def database_cleaner_rspec
-        self.gem 'database_cleaner', group: [:development, :test]
+        @generator.gem 'database_cleaner', group: [:development, :test]
         after_bundle do
           inside 'spec' do
             inside 'support' do
@@ -206,7 +206,7 @@ module MakeItSo
       end
 
       def valid_attribute_rspec
-        self.gem 'valid_attribute', group: [:development, :test]
+        @generator.gem 'valid_attribute', group: [:development, :test]
         after_bundle do
           inside 'spec' do
             insert_into_file 'rails_helper.rb',
@@ -223,7 +223,7 @@ module MakeItSo
       end
 
       def shoulda_rspec
-        self.gem 'shoulda-matchers',
+        @generator.gem 'shoulda-matchers',
           group: [:development, :test],
           require: false
         after_bundle do
@@ -234,7 +234,7 @@ module MakeItSo
       end
 
       def devise_dependency
-        self.gem 'devise'
+        @generator.gem 'devise'
 
         after_bundle do
           generate 'devise:install'
@@ -262,7 +262,7 @@ module MakeItSo
       end
 
       def foundation_dependency
-        self.gem 'foundation-rails', '~> 5.0'
+        @generator.gem 'foundation-rails', '~> 5.0'
 
         after_bundle do
           generate 'foundation:install foundation'
