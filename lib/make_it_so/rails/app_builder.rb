@@ -131,6 +131,7 @@ module MakeItSo
             })
           end
 
+          run 'touch .babelrc'
           modify_json(File.join(destination_root, '.babelrc')) do |json|
             json["env"] ||= {}
             json["env"]["test"] ||= {}

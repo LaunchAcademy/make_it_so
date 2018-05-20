@@ -27,7 +27,7 @@ module MakeItSo
       template(file_path, File.join(app_path, file_path))
     end
 
-    ef readme
+    def readme
       file_path = 'README.md'
       run "touch #{file_path}"
     end
