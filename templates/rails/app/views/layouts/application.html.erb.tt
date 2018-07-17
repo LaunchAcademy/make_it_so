@@ -51,6 +51,14 @@
   <%%= yield %>
 
   <%%= javascript_include_tag 'application' %>
+  <% if options[:react] %>
+  <%%- if Rails.env.development? || Rails.env.test? -%> 
+    <%%= javascript_tag do %>
+      window.railsEnv = '<%%= Rails.env %>'
+    <%%- end -%>
+  <%%- end -%>
+  <%%= javascript_pack_tag 'application' %>
+  <% end %>
   <%%= yield :extra_footer %>
 </body>
 </html>

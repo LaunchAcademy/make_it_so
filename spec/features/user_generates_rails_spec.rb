@@ -200,6 +200,12 @@ feature 'user generates rails app' do
       end
     end
 
+    it 'includes redbox-react in package.json' do
+      in_package_json?(File.join(app_path, 'package.json')) do |json|
+        expect(json["dependencies"]["redbox-react"]).to_not be_nil
+      end
+    end
+
     it 'includes react-dom in package.json' do
       in_package_json?(File.join(app_path, 'package.json')) do |json|
         expect(json["dependencies"]["react-dom"]).to_not be_nil

@@ -106,6 +106,10 @@ module MakeItSo
       elsif options[:karma]
         build 'karma'
       end
+
+      if options[:react] || options[:jest] || options[:karma]
+        build 'yarn_install'
+      end
     end
 
     protected

@@ -3,7 +3,8 @@
     "babel-preset-react": "~6.24.1",
     "prop-types": "~15.6.0",
     "react": "~15.4.2",
-    "react-dom": "~15.4.2"
+    "react-dom": "~15.4.2",
+    "redbox-react": "1.6.0"
   },
   "devDependencies": {
     "webpack-cli": "^2.0.10",
