@@ -245,6 +245,15 @@ module MakeItSo
           generate 'devise:views'
           generate 'devise user'
 
+          #note: temporary fix that can be removed once devise progresses #beyond v4.4.3
+          # https://github.com/plataformatec/devise/pull/4869/files
+          inside 'config/initializers' do
+            insert_into_file 'devise.rb', 
+              after: "Devise.setup do |config|" do
+                "  config.secret_key = Rails.application.secret_key_base\n"
+            end
+          end
+
           if options[:rspec]
             inside 'spec' do
               directory 'features'
