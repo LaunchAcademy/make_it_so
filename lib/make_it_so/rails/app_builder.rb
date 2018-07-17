@@ -50,24 +50,27 @@ module MakeItSo
       def react
         @generator.gem 'webpacker', '~> 3.3'
 
-        after_bundle do
-          rake 'webpacker:install'
-          rake 'webpacker:install:react'
+        rake 'webpacker:install'
+        rake 'webpacker:install:react'
+        remove_file 'app/javascript/packs/application.js'
+        remove_file 'app/javascript/packs/hello_react.jsx'
 
-          unparsed_json = snippet('react_dependencies.json')
-          parsed_json = JSON.parse(unparsed_json)
+        unparsed_json = snippet('react_dependencies.json')
+        parsed_json = JSON.parse(unparsed_json)
 
-          modify_json(package_json_file) do |json|
-            ["dependencies", "devDependencies"].each do |key|
-              json[key] ||= {}
-              json[key].merge!(parsed_json[key])
-            end
-
-            json["scripts"] ||= {}
-            json["scripts"]["start"] = "./bin/webpack-dev-server"
+        modify_json(package_json_file) do |json|
+          ["dependencies", "devDependencies"].each do |key|
+            json[key] ||= {}
+            json[key].merge!(parsed_json[key])
           end
 
-          rake 'yarn:install'
+          json["scripts"] ||= {}
+          json["scripts"]["start"] = "./bin/webpack-dev-server"
+        end
+
+        inside 'app/javascript/packs' do
+          copy_file 'new_application.js', 'application.js'
+          remove_file 'new_application.js'
         end
       end
 
@@ -88,8 +91,6 @@ module MakeItSo
             template 'exampleTest.js'
             template 'testHelper.js'
           end
-
-          rake 'yarn:install'
         end
       end
 
@@ -143,9 +144,11 @@ module MakeItSo
               }
             })
           end
-
-          rake 'yarn:install'
         end
+      end
+
+      def yarn_install
+        run 'yarn install'
       end
 
       def dotenv
