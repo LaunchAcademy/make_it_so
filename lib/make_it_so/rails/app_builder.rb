@@ -91,6 +91,10 @@ module MakeItSo
             template 'exampleTest.js'
             template 'testHelper.js'
           end
+
+          append_to_file '.gitignore' do
+            "coverage/*\n"
+          end
         end
       end
 

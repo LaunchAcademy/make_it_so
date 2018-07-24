@@ -241,6 +241,11 @@ feature 'user generates rails app' do
         expect(json["devDependencies"]["react-addons-test-utils"]).to_not be_nil
       end
     end
+
+    it 'adds coverage/* to gitignore' do
+      expect(File.read(File.join(app_path, '.gitignore'))).to include("coverage/*\n")
+    end
+
   end
 
   context 'dotenv' do
