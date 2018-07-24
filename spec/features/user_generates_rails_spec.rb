@@ -278,9 +278,14 @@ feature 'jest' do
   let(:package_json_path) { File.join(app_path, 'package.json') }
 
 
-  scenario 'adds jest and enzyme as dependencies' do
+  scenario 'adds jest as a dependency' do
     in_package_json?(package_json_path) do |json|
       expect(json["devDependencies"]["jest"]).to_not be_nil
+    end
+  end
+
+  scenario 'adds enzyme as a dependency' do
+    in_package_json?(package_json_path) do |json|
       expect(json["devDependencies"]["enzyme"]).to_not be_nil
     end
   end
