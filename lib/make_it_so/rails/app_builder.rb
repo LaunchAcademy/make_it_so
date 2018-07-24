@@ -99,6 +99,7 @@ module MakeItSo
           deps = [
             'jest',
             'babel-jest',
+            'enzyme',
             'enzyme-adapter-react-15.4',
             'react-addons-test-utils',
             'jest-fetch-mock'

@@ -284,6 +284,12 @@ feature 'jest' do
     end
   end
 
+  scenario 'adds enzyme as a dependency' do
+    in_package_json?(package_json_path) do |json|
+      expect(json["devDependencies"]["enzyme"]).to_not be_nil
+    end
+  end
+
   scenario 'adds jest as the test script in package.json' do
     in_package_json?(package_json_path) do |json|
       expect(json["scripts"]["test"]).to include("jest")
