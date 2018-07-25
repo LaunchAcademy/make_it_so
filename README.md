@@ -3,12 +3,9 @@
 ![Make It So](http://images.simplysyndicated.com/wp-content/uploads/2014/07/make-it-so-captain.jpg)
 
 Make It So is a command line utility that makes it easy to create starting points
-for all apps Ruby. Right now, it only supports Rails, but support for Sinatra,
-Gosu, and other paradigms are in progress.
+for all apps Ruby.
 
 ## Installation
-
-Add this line to your application's Gemfile:
 
 Install it yourself as:
 
@@ -16,7 +13,11 @@ Install it yourself as:
 
 ## Usage
 
+Make It So has multiple options to help you get started.  You can get up and running with Rails, Sinatra, or Gosu without configuration issues.  If you would like to see a list of options:
 
+```no-highlight
+make_it_so
+```
 ### Rails
 
 In the terminal, run:
@@ -32,17 +33,13 @@ rake db:create
 rake db:migrate
 ```
 
-## Extra Footer in Views
-
-Inject javascript at the end of the body tag. Javascript should always be the last thing loaded on the page. In view logic you can do the following:
-
-```erb
-<%= content_for :extra_footer do %>
-  <script type="text/javascript">
-    var widget = new Something.Widget('foo');
-  </script>
-<% end %>
-```
+By default, the generator will create a Rails 5.2 app with the following options activated:
+- RSpec
+- Devise
+- Postgres
+- Foundation
+- React
+- Karma
 
 ### Sinatra
 
@@ -52,7 +49,7 @@ In the terminal, run:
 make_it_so sinatra <app_name>
 ```
 
-By default, the generator, will create a sinatra root complete with an RSpec configuration.
+By default, the generator will create a sinatra root complete with an RSpec configuration.
 
 ### Gosu
 
@@ -61,7 +58,7 @@ In the terminal, run:
 make_it_so gosu <app_name>
 ```
 
-By default, the generator, will create a gosu template complete with an RSpec configuration.
+By default, the generator will create a gosu template complete with an RSpec configuration.
 
 The tree structure looks like:  
 
@@ -79,6 +76,18 @@ GosuGame
 ```  
 
 To learn more about Gosu development [read through this tutorial](https://github.com/SpencerCDixon/Gosu-Tutorial)
+
+## View Specific Javascript
+
+Inject javascript at the end of the body tag. Javascript should always be the last thing loaded on the page. In view logic you can do the following:
+
+```erb
+<%= content_for :extra_footer do %>
+<script type="text/javascript">
+var widget = new Something.Widget('foo');
+</script>
+<% end %>
+```
 
 ## Contributing
 
