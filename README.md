@@ -18,6 +18,7 @@ Make It So has multiple options to help you get started.  You can get up and run
 ```no-highlight
 make_it_so
 ```
+
 ### Rails
 
 In the terminal, run:
@@ -40,6 +41,16 @@ By default, the generator will create a Rails 5.2 app with the following options
 - Foundation
 - React
 - Karma
+
+To take advantage of view-specific javascript, inject a script tag at the end of the body tag. Javascript should always be the last thing loaded on the page. In view logic you can do the following:
+
+```erb
+<%= content_for :extra_footer do %>
+<script type="text/javascript">
+var widget = new Something.Widget('foo');
+</script>
+<% end %>
+```
 
 ### Sinatra
 
@@ -76,18 +87,6 @@ GosuGame
 ```  
 
 To learn more about Gosu development [read through this tutorial](https://github.com/SpencerCDixon/Gosu-Tutorial)
-
-## View Specific Javascript
-
-Inject javascript at the end of the body tag. Javascript should always be the last thing loaded on the page. In view logic you can do the following:
-
-```erb
-<%= content_for :extra_footer do %>
-<script type="text/javascript">
-var widget = new Something.Widget('foo');
-</script>
-<% end %>
-```
 
 ## Contributing
 
