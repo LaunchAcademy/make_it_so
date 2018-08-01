@@ -295,6 +295,12 @@ feature 'jest' do
     end
   end
 
+  scenario 'adds fetch-mock as a dependency' do
+    in_package_json?(package_json_path) do |json|
+      expect(json["devDependencies"]["fetch-mock"]).to_not be_nil
+    end
+  end
+
   scenario 'adds jest as the test script in package.json' do
     in_package_json?(package_json_path) do |json|
       expect(json["scripts"]["test"]).to include("jest")
@@ -324,6 +330,14 @@ feature 'jest' do
     end
   end
 
+  scenario 'adds testURL to jest configuration' do
+    in_package_json?(package_json_path) do |json|
+      expect(json["jest"]).to_not be_nil
+      expect(json["jest"]["testURL"]).to_not be_nil
+      expect(json["jest"]["testURL"]).to eq("http://localhost/")
+    end
+  end
+
   scenario 'adds a spec/javascript/support/enzyme.js file' do
     support_file = File.join(app_path, 'spec/javascript/support/enzyme.js')
     expect(FileTest.exists?(support_file)).to eq(true)
@@ -333,13 +347,6 @@ feature 'jest' do
     in_package_json?(package_json_path) do |json|
       expect(json["jest"]).to_not be_nil
       expect(json["jest"]["setupFiles"]).to include('./spec/javascript/support/enzyme.js')
-    end
-  end
-
-  scenario 'adds spec/javascript/support/jest-fetch-mock.js to setup' do
-    in_package_json?(package_json_path) do |json|
-      expect(json["jest"]).to_not be_nil
-      expect(json["jest"]["setupFiles"]).to include('./spec/javascript/support/jest-fetch-mock.js')
     end
   end
 end
