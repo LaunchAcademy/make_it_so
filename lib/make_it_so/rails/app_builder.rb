@@ -100,23 +100,17 @@ module MakeItSo
 
       def jest
         after_bundle do
-          deps = [
-            'jest',
-            'babel-jest',
-            'enzyme',
-            'enzyme-adapter-react-15.4',
-            'react-addons-test-utils',
-            'jest-fetch-mock'
-          ]
-          run "yarn add #{deps.join(' ')} --dev"
+          unparsed_json = snippet('js_jest_testing_deps.json')
+          parsed_json = JSON.parse(unparsed_json)
 
           run 'mkdir -p spec/javascript/support'
           inside 'spec/javascript/support' do
             template 'enzyme.js'
-            template 'jest-fetch-mock.js'
           end
 
           modify_json(package_json_file) do |json|
+            json["devDependencies"] ||= {}
+            json["devDependencies"].merge!(parsed_json["devDependencies"])
             json["scripts"] ||= {}
             json["scripts"]["test"] = "node_modules/.bin/jest"
             json["scripts"]["test:dev"] = "node_modules/.bin/jest --notify --watch"
@@ -131,9 +125,9 @@ module MakeItSo
                 "app/javascript"
               ],
               "setupFiles": [
-                "./spec/javascript/support/enzyme.js",
-                "./spec/javascript/support/jest-fetch-mock.js"
-              ]
+                "./spec/javascript/support/enzyme.js"
+              ],
+              "testURL": "http://localhost/"
             })
           end
 
