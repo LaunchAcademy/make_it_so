@@ -34,7 +34,8 @@ rake db:create
 rake db:migrate
 ```
 
-By default, the generator will create a Rails 5.2 app with the following options activated:
+By default, the generator will create a Rails app with the following options activated:
+
 - RSpec
 - Devise
 - Postgres
@@ -51,6 +52,8 @@ var widget = new Something.Widget('foo');
 </script>
 <% end %>
 ```
+
+There is experimental support for a `--jest` flag that will use Jest for client side testing instead of karma/jasmine.
 
 ### Sinatra
 
