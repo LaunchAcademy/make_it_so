@@ -99,9 +99,9 @@ feature 'user generates rails app' do
         expect(File.read(gemfile_path)).to include('factory_bot')
       end
 
-      it 'requires all support files, including factory bot' do
+      it 'requires the factory_bot support file' do
         expect(File.read(rails_spec_helper)).
-          to include("\nDir[Rails.root.join('spec/support/**/*.rb')].each { |f| require f }\n\n")
+          to include("\nrequire File.join(File.dirname(__FILE__), 'support/factory_bot')\n")
       end
     end
 

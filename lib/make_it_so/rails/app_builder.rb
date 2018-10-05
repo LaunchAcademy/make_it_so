@@ -188,7 +188,11 @@ module MakeItSo
         @generator.gem 'factory_bot', group: [:development, :test]
         after_bundle do
           inside 'spec' do
-            uncomment_lines 'rails_helper.rb', /spec\/support\/\*\*\/\*.rb/
+            insert_into_file 'rails_helper.rb',
+              after: rails_helper_insertion_hook do
+
+              "require File.join(File.dirname(__FILE__), 'support/factory_bot')\n"
+            end
 
             inside 'support' do
               template 'factory_bot.rb'
