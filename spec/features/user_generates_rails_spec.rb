@@ -43,6 +43,10 @@ feature 'user generates rails app' do
     expect(File.read(app_layout)).to include('viewport')
   end
 
+  scenario 'skips active_storage' do
+    expect(FileTest.exists?(join_paths(app_path, 'config/storage.yml'))).to eq(false)
+  end
+
   scenario 'creates a valid gemfile' do
     words = ['source', '#', 'gem', 'group', 'end', 'ruby']
 

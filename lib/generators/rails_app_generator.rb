@@ -42,6 +42,11 @@ module MakeItSo
       default: true,
       desc: 'Skip spring gem'
 
+    class_option :skip_active_storage,
+      type: :boolean,
+      default: true,
+      desc: "Skip Active Storage"
+
     class_option :react,
       type: :boolean,
       default: true,
