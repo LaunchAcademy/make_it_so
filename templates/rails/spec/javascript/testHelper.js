@@ -1,7 +1,6 @@
 import { shallow, mount } from 'enzyme';
 import jasmineEnzyme from 'jasmine-enzyme';
 import React from 'react';
-import 'jasmine-ajax';
 
 Object.assign(global, {
   jasmineEnzyme,
