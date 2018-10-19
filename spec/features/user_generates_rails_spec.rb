@@ -246,6 +246,13 @@ feature 'user generates rails app' do
       end
     end
 
+    it 'includes fetch-mock' do
+      in_package_json?(File.join(app_path, 'package.json')) do |json|
+        expect(json["devDependencies"]["fetch-mock"]).to_not be_nil
+      end
+
+    end
+
     it 'adds coverage/* to gitignore' do
       expect(File.read(File.join(app_path, '.gitignore'))).to include("coverage/*\n")
     end
