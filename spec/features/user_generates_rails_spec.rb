@@ -276,6 +276,51 @@ feature 'user generates rails app' do
       expect(FileTest.exists?(File.join(app_path, '.env.example'))).to eq(true)
     end
   end
+
+  context 'enzyme' do
+    it 'includes enzyme and enzyme adapter in package.json' do
+      in_package_json?(File.join(app_path, 'package.json')) do |json|
+        expect(json["devDependencies"]["enzyme"]).to_not be_nil
+        expect(json["devDependencies"]["enzyme-adapter-react-16"]).to_not be_nil
+      end
+    end
+
+    it 'configures enzyme with adapter in testHelper' do
+      expect(File.read(File.join(app_path, 'spec/testHelper.js'))).to include("import Enzyme from 'enzyme'")
+      expect(File.read(File.join(app_path, 'spec/testHelper.js'))).to include("import Adapter from 'enzyme-adapter-react-16'")
+      expect(File.read(File.join(app_path, 'spec/testHelper.js'))).to include("Enzyme.configure({ adapter: new Adapter() })")
+    end
+  end
+
+  context 'babel' do
+    it 'includes necessary babel packages in package.json as dev dependencies' do
+      in_package_json?(File.join(app_path, 'package.json')) do |json|
+        expect(json["devDependencies"]["@babel/core"]).to_not be_nil
+        expect(json["devDependencies"]["@babel/preset-env"]).to_not be_nil
+        expect(json["devDependencies"]["@babel/preset-react"]).to_not be_nil
+        expect(json["devDependencies"]["babel-loader"]).to_not be_nil
+      end
+    end
+
+    it 'includes @babel/polyfill in package.json as regular dependency' do
+      in_package_json?(File.join(app_path, 'package.json')) do |json|
+        expect(json["dependencies"]["@babel/polyfill"]).to_not be_nil
+      end
+    end
+
+    it 'imports @babel/polyfill in main.js' do
+      expect(File.read(File.join(app_path, 'src/main.js'))).to include("import '@babel/polyfill';")
+    end
+
+    it 'sets necessary presets in .babelrc' do
+      expect(File.read(File.join(app_path, '.babelrc'))).to include("@babel/preset-env")
+      expect(File.read(File.join(app_path, '.babelrc'))).to include("@babel/preset-react")
+    end
+
+    it 'karma.conf.js uses @babel/polyfill' do
+      expect(File.read(File.join(app_path, 'karma.conf.js'))).to include("node_modules/@babel/polyfill/dist/polyfill.js")
+    end
+  end
 end
 
 feature 'jest' do
