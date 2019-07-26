@@ -50,6 +50,10 @@ module MakeItSoSpecHelpers
     json = JSON.parse(contents)
     yield(json)
   end
+
+  def read_file(file_path)
+    File.read(File.join(app_path, file_path))
+  end
 end
 
 RSpec.configure do |config|

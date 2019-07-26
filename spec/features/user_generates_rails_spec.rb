@@ -16,6 +16,7 @@ feature 'user generates rails app' do
   let(:rails_spec_helper) { join_paths(app_path, 'spec/rails_helper.rb')}
 
   before(:all) do
+    puts "Starting Tests"
     make_it_so!("rails #{app_name}")
   end
 
@@ -189,7 +190,7 @@ feature 'user generates rails app' do
     end
 
     it 'includes modernizr in the layout' do
-      expect(File.read(File.join(app_path, 'app/views/layouts/application.html.erb'))).to include('modernizr')
+      expect(file_read('app/views/layouts/application.html.erb')).to include('modernizr')
     end
   end
 
@@ -240,9 +241,9 @@ feature 'user generates rails app' do
       end
     end
 
-    it 'includes react-addons-test-utils' do
+    it 'does not include react-addons-test-utils' do
       in_package_json?(File.join(app_path, 'package.json')) do |json|
-        expect(json["devDependencies"]["react-addons-test-utils"]).to_not be_nil
+        expect(json["devDependencies"]["react-addons-test-utils"]).to be_nil
       end
     end
 
@@ -250,11 +251,10 @@ feature 'user generates rails app' do
       in_package_json?(File.join(app_path, 'package.json')) do |json|
         expect(json["devDependencies"]["fetch-mock"]).to_not be_nil
       end
-
     end
 
     it 'adds coverage/* to gitignore' do
-      expect(File.read(File.join(app_path, '.gitignore'))).to include("coverage/*\n")
+      expect(read_file('.gitignore')).to include("coverage/*\n")
     end
 
   end
@@ -265,7 +265,7 @@ feature 'user generates rails app' do
     end
 
     it 'adds .env to gitignore' do
-      expect(File.read(File.join(app_path, '.gitignore'))).to include(".env\n")
+      expect(file_read('.gitignore')).to include(".env\n")
     end
 
     it 'creates a .env file' do
@@ -285,10 +285,11 @@ feature 'user generates rails app' do
       end
     end
 
-    it 'configures enzyme with adapter in testHelper' do
-      expect(File.read(File.join(app_path, 'spec/testHelper.js'))).to include("import Enzyme from 'enzyme'")
-      expect(File.read(File.join(app_path, 'spec/testHelper.js'))).to include("import Adapter from 'enzyme-adapter-react-16'")
-      expect(File.read(File.join(app_path, 'spec/testHelper.js'))).to include("Enzyme.configure({ adapter: new Adapter() })")
+    fit 'configures enzyme with adapter in testHelper' do
+      testHelper = read_file('spec/javascript/testHelper.js')
+      expect(testHelper).to include("import Enzyme from 'enzyme'")
+      expect(testHelper).to include("import Adapter from 'enzyme-adapter-react-16'")
+      expect(testHelper).to include("Enzyme.configure({ adapter: new Adapter() })")
     end
   end
 
@@ -302,23 +303,24 @@ feature 'user generates rails app' do
       end
     end
 
-    it 'includes @babel/polyfill in package.json as regular dependency' do
+    it 'includes @babel/polyfill in package.json as standard dependency' do
       in_package_json?(File.join(app_path, 'package.json')) do |json|
         expect(json["dependencies"]["@babel/polyfill"]).to_not be_nil
       end
     end
 
-    it 'imports @babel/polyfill in main.js' do
-      expect(File.read(File.join(app_path, 'src/main.js'))).to include("import '@babel/polyfill';")
+    it 'imports @babel/polyfill in App.js' do
+      expect(read_file('app/javascript/react/components/App.js')).to include("import '@babel/polyfill'")
     end
 
-    it 'sets necessary presets in .babelrc' do
-      expect(File.read(File.join(app_path, '.babelrc'))).to include("@babel/preset-env")
-      expect(File.read(File.join(app_path, '.babelrc'))).to include("@babel/preset-react")
+    fit 'sets necessary presets in .babelrc' do
+      babelrc = read_file('.babelrc')
+      expect(babelrc).to include("@babel/preset-env")
+      expect(babelrc).to include("@babel/preset-react")
     end
 
     it 'karma.conf.js uses @babel/polyfill' do
-      expect(File.read(File.join(app_path, 'karma.conf.js'))).to include("node_modules/@babel/polyfill/dist/polyfill.js")
+      expect(read_file('karma.conf.js')).to include("node_modules/@babel/polyfill/dist/polyfill.js")
     end
   end
 end

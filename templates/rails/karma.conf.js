@@ -12,7 +12,7 @@ module.exports = function(config) {
     // files that Karma will server to the browser
     files: [
       // use Babel polyfill to emulate a full ES6 environment in PhantomJS
-      'node_modules/babel-polyfill/dist/polyfill.js',
+      'node_modules/@babel/polyfill/dist/polyfill.js',
       // entry file for Webpack
       'spec/javascript/testHelper.js'
     ],
