@@ -54,6 +54,25 @@ module MakeItSoSpecHelpers
   def read_file(file_path)
     File.read(File.join(app_path, file_path))
   end
+
+  def major_version(version_string)
+    version_array(version_string)[0]
+  end
+
+  def minor_version(version_string)
+    version_array(version_string)[1]
+  end
+
+  def patch_version(version_string)
+    version_array(version_string)[2]
+  end
+
+  def version_array(version_string)
+    version_string.delete!("^")
+    version_string.delete!("~")
+    version_array = version_string.split(".")
+    version_array.map{ |string| string.to_i }
+  end
 end
 
 RSpec.configure do |config|
