@@ -244,12 +244,6 @@ feature 'user generates rails app' do
       end
     end
 
-    it 'does not include react-addons-test-utils' do
-      in_package_json?(File.join(app_path, 'package.json')) do |json|
-        expect(json["devDependencies"]["react-addons-test-utils"]).to be_nil
-      end
-    end
-
     it 'includes fetch-mock' do
       in_package_json?(File.join(app_path, 'package.json')) do |json|
         expect(json["devDependencies"]["fetch-mock"]).to_not be_nil
