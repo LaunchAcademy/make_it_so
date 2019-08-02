@@ -138,7 +138,7 @@ module MakeItSo
             json["env"]["test"].merge!({
               "env": {
                 "test": {
-                  "presets": ["@babel/env", "@babel/react"]
+                  "presets": ["@babel/env", "@babel/react"],
                 }
               }
             })
