@@ -219,6 +219,12 @@ feature 'user generates rails app' do
         expect(minor_version(react_dom)).to be 8
       end
     end
+
+    it 'includes react-router-dom in package.json' do
+      in_package_json?(File.join(app_path, 'package.json')) do |json|
+        expect(json["dependencies"]["react-router-dom"]).to_not be_nil
+      end
+    end
   end
 
   context 'karma' do
