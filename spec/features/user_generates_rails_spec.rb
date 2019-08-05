@@ -189,7 +189,7 @@ feature 'user generates rails app' do
     end
 
     it 'includes modernizr in the layout' do
-      expect(file_read('app/views/layouts/application.html.erb')).to include('modernizr')
+      expect(read_file('app/views/layouts/application.html.erb')).to include('modernizr')
     end
   end
 
@@ -261,7 +261,7 @@ feature 'user generates rails app' do
     end
 
     it 'adds .env to gitignore' do
-      expect(file_read('.gitignore')).to include(".env\n")
+      expect(read_file('.gitignore')).to include(".env\n")
     end
 
     it 'creates a .env file' do
