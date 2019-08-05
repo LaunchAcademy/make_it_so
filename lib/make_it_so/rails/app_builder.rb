@@ -95,6 +95,20 @@ module MakeItSo
           append_to_file '.gitignore' do
             "coverage/*\n"
           end
+
+          run 'touch .babelrc'
+          modify_json(File.join(destination_root, '.babelrc')) do |json|
+            json["env"] ||= {}
+            json["env"]["test"] ||= {}
+            # Don't remove the comma at the end of the presets line! It's necessary for json validity in the final file
+            json["env"]["test"].merge!({
+              "env": {
+                "test": {
+                  "presets": ["@babel/env", "@babel/react"],
+                }
+              }
+            })
+          end
         end
       end
 
@@ -135,6 +149,7 @@ module MakeItSo
           modify_json(File.join(destination_root, '.babelrc')) do |json|
             json["env"] ||= {}
             json["env"]["test"] ||= {}
+            # Don't remove the comma at the end of the presets line! It's necessary for json validity in the final file
             json["env"]["test"].merge!({
               "env": {
                 "test": {
