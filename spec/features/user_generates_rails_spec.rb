@@ -312,17 +312,6 @@ feature 'user generates rails app' do
       end
     end
 
-    it 'includes @babel/polyfill in package.json as standard dependency' do
-      in_package_json?(File.join(app_path, 'package.json')) do |json|
-        babel_polyfill = json["dependencies"]["@babel/polyfill"]
-        expect(major_version(babel_polyfill)).to equal 7
-      end
-    end
-
-    it 'imports @babel/polyfill in App.js' do
-      expect(read_file('app/javascript/react/components/App.js')).to include("import '@babel/polyfill'")
-    end
-
     it 'sets necessary presets in .babelrc' do
       babelrc = read_file('.babelrc')
       puts "**** BABELRC IS BELOW *****"

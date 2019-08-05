@@ -1,6 +1,5 @@
 {
   "dependencies": {
-    "@babel/polyfill": "^7.4.4",
     "prop-types": "~15.6.0",
     "react": "~16.8.0",
     "react-dom": "~16.8.0",
