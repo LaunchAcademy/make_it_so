@@ -24,7 +24,6 @@ Gem::Specification.new do |spec|
   spec.add_dependency "json"
 
   spec.add_development_dependency "bundler", "~> 2.0.2"
-  spec.add_development_dependency "rake", "~> 12.3"
   spec.add_development_dependency "rspec"
   spec.add_development_dependency "capybara"
 end
