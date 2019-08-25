@@ -7,4 +7,5 @@ gemspec
 
 group :development do
   gem 'pry'
+  gem 'solargraph'
 end
