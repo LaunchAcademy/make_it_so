@@ -1,13 +1,17 @@
 {
   "dependencies": {
-    "babel-preset-react": "~6.24.1",
     "prop-types": "~15.6.0",
-    "react": "~15.4.2",
-    "react-dom": "~15.4.2",
+    "react": "~16.8.0",
+    "react-dom": "~16.8.0",
     "react-router-dom": "5.0.0",
     "redbox-react": "1.6.0"
   },
   "devDependencies": {
+    "@babel/core": "^7.5.5",
+    "@babel/plugin-transform-runtime": "^7.5.5",
+    "@babel/preset-env": "^7.5.5",
+    "@babel/preset-react": "^7.0.0",
+    "babel-loader": "^8.0.6",
     "webpack-cli": "^2.0.10",
     "webpack-dev-server": "^2.11.1"
   }

@@ -84,7 +84,7 @@ feature 'user generates rails app' do
         expect(File.read(gemfile_path)).to include('capybara')
       end
 
-      it 'includes launch as a Gemfile dependency' do
+      it 'includes launchy as a Gemfile dependency' do
         expect(File.read(gemfile_path)).to include('launchy')
       end
 
@@ -189,7 +189,7 @@ feature 'user generates rails app' do
     end
 
     it 'includes modernizr in the layout' do
-      expect(File.read(File.join(app_path, 'app/views/layouts/application.html.erb'))).to include('modernizr')
+      expect(read_file('app/views/layouts/application.html.erb')).to include('modernizr')
     end
   end
 
@@ -200,7 +200,9 @@ feature 'user generates rails app' do
 
     it 'includes react in package.json' do
       in_package_json?(File.join(app_path, 'package.json')) do |json|
-        expect(json["dependencies"]["react"]).to_not be_nil
+        react = json["dependencies"]["react"]
+        expect(major_version(react)).to be 16
+        expect(minor_version(react)).to be 8
       end
     end
 
@@ -212,7 +214,9 @@ feature 'user generates rails app' do
 
     it 'includes react-dom in package.json' do
       in_package_json?(File.join(app_path, 'package.json')) do |json|
-        expect(json["dependencies"]["react-dom"]).to_not be_nil
+        react_dom = json["dependencies"]["react-dom"]
+        expect(major_version(react_dom)).to be 16
+        expect(minor_version(react_dom)).to be 8
       end
     end
 
@@ -246,23 +250,15 @@ feature 'user generates rails app' do
       end
     end
 
-    it 'includes react-addons-test-utils' do
-      in_package_json?(File.join(app_path, 'package.json')) do |json|
-        expect(json["devDependencies"]["react-addons-test-utils"]).to_not be_nil
-      end
-    end
-
     it 'includes fetch-mock' do
       in_package_json?(File.join(app_path, 'package.json')) do |json|
         expect(json["devDependencies"]["fetch-mock"]).to_not be_nil
       end
-
     end
 
     it 'adds coverage/* to gitignore' do
-      expect(File.read(File.join(app_path, '.gitignore'))).to include("coverage/*\n")
+      expect(read_file('.gitignore')).to include("coverage/*\n")
     end
-
   end
 
   context 'dotenv' do
@@ -271,7 +267,7 @@ feature 'user generates rails app' do
     end
 
     it 'adds .env to gitignore' do
-      expect(File.read(File.join(app_path, '.gitignore'))).to include(".env\n")
+      expect(read_file('.gitignore')).to include(".env\n")
     end
 
     it 'creates a .env file' do
@@ -280,6 +276,53 @@ feature 'user generates rails app' do
 
     it 'creates a .env.example file' do
       expect(FileTest.exists?(File.join(app_path, '.env.example'))).to eq(true)
+    end
+  end
+
+  context 'enzyme' do
+    it 'includes enzyme in package.json' do
+      in_package_json?(File.join(app_path, 'package.json')) do |json|
+        enzyme = json["devDependencies"]["enzyme"]
+        expect(major_version(enzyme)).to be 3
+        expect(minor_version(enzyme)).to be 10
+      end
+    end
+
+    it 'includes enzyme-adapter-react-16 in package.json' do
+      in_package_json?(File.join(app_path, 'package.json')) do |json|
+        adapter = json["devDependencies"]["enzyme-adapter-react-16"]
+        expect(major_version(adapter)).to be 1
+        expect(minor_version(adapter)).to be 14
+      end
+    end
+
+    it 'configures enzyme with adapter in testHelper' do
+      testHelper = read_file('spec/javascript/testHelper.js')
+      expect(testHelper).to include("Enzyme.configure({ adapter: new EnzymeAdapter() })")
+    end
+  end
+
+  context 'babel' do
+    it 'includes necessary babel packages in package.json as dev dependencies' do
+      in_package_json?(File.join(app_path, 'package.json')) do |json|
+        expect(json["devDependencies"]["@babel/core"]).to_not be_nil
+        expect(json["devDependencies"]["@babel/preset-env"]).to_not be_nil
+        expect(json["devDependencies"]["@babel/preset-react"]).to_not be_nil
+        expect(json["devDependencies"]["babel-loader"]).to_not be_nil
+      end
+    end
+
+    it 'sets necessary presets in .babelrc' do
+      babelrc = read_file('.babelrc')
+      puts "**** BABELRC IS BELOW *****"
+      puts babelrc
+      puts "\n"
+      expect(babelrc).to include("@babel/env")
+      expect(babelrc).to include("@babel/react")
+    end
+
+    it 'karma.conf.js uses @babel/polyfill' do
+      expect(read_file('karma.conf.js')).to include("node_modules/@babel/polyfill/dist/polyfill.js")
     end
   end
 end

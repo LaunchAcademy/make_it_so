@@ -1,11 +1,11 @@
 {
   "devDependencies": {
-    "babel-plugin-transform-runtime": "^6.23.0",
-    "enzyme": "~2.9.1",
+    "enzyme": "~3.10.0",
+    "enzyme-adapter-react-16": "^1.14.0",
     "fetch-mock": "5",
     "fetch-ponyfill": "^6.0.2",
     "jasmine-core": "~2.4.1",
-    "jasmine-enzyme": "~3.4.0",
+    "jasmine-enzyme": "~7.0.0",
     "karma": "~0.13.22",
     "karma-coverage": "0.5.5",
     "karma-jasmine": "~0.3.8",
@@ -13,8 +13,6 @@
     "karma-sourcemap-loader": "0.3.7",
     "karma-spec-reporter": "0.0.26",
     "karma-webpack": "2.0.1",
-    "phantomjs-prebuilt": "~2.1.14",
-    "react-addons-test-utils": "~15.6.2"
+    "phantomjs-prebuilt": "~2.1.14"
   }
 }
-
