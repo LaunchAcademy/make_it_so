@@ -54,12 +54,12 @@ module MakeItSo
 
     class_option :karma,
       type: :boolean,
-      default: true,
+      default: false,
       desc: 'Generate karma testing setup'
 
     class_option :jest,
       type: :boolean,
-      default: false,
+      default: true,
       desc: 'Generate jest testing setup'
 
     def initialize(*args)
