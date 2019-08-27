@@ -313,8 +313,9 @@ feature 'user generates rails app' do
     end
 
     it 'sets necessary presets in .babelrc' do
-      expect(read_file('.babelrc')).to include("@babel/env")
-      expect(read_file('.babelrc')).to include("@babel/react")
+      babelrc = read_file('.babelrc')
+      expect(babelrc).to include("@babel/env")
+      expect(babelrc).to include("@babel/react")
     end
 
     it 'karma.conf.js uses @babel/polyfill' do
