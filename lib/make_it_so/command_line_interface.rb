@@ -5,6 +5,7 @@ module MakeItSo
       "generates a rails application based on your specifications"
     option :devise, type: :boolean
     option :jest, type: :boolean
+    option :karma, type: :boolean
     def rails(app_name)
       MakeItSo::RailsAppGenerator.start(ARGV[1..-1])
     end
