@@ -313,10 +313,6 @@ feature 'user generates rails app' do
     end
 
     it 'sets necessary presets in .babelrc' do
-      babelrc = read_file('.babelrc')
-      puts "**** BABELRC IS BELOW *****"
-      puts babelrc
-      puts "\n"
       expect(babelrc).to include("@babel/env")
       expect(babelrc).to include("@babel/react")
     end
@@ -376,7 +372,7 @@ feature 'jest' do
 
   scenario 'adds node_modules to modules directory' do
     in_package_json?(package_json_path) do |json|
-      expect(json["jest"]).to_not be_nil
+      expect(json["jest"]).to_not be_nilspec/features/user_generates_rails_spec.rb
       expect(json["jest"]["moduleDirectories"]).to_not be_nil
       expect(json["jest"]["moduleDirectories"]).to include("node_modules")
     end
