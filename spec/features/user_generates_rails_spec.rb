@@ -314,9 +314,6 @@ feature 'user generates rails app' do
 
     it 'sets necessary presets in .babelrc' do
       babelrc = read_file('.babelrc')
-      puts "**** BABELRC IS BELOW *****"
-      puts babelrc
-      puts "\n"
       expect(babelrc).to include("@babel/env")
       expect(babelrc).to include("@babel/react")
     end
