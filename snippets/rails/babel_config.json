@@ -7,14 +7,13 @@
         "targets": {
           "browsers": "> 1%"
         },
-        "forceAllTransforms": true,
-        "useBuiltIns": false
+        "forceAllTransforms": true
       }
     ],
     "@babel/react"
   ],
   "plugins": [
-    "syntax-dynamic-import",
+    "@babel/syntax-dynamic-import",
     "@babel/proposal-object-rest-spread",
     [
       "@babel/proposal-class-properties",

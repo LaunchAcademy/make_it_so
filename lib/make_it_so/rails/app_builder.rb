@@ -66,6 +66,8 @@ module MakeItSo
 
           json["scripts"] ||= {}
           json["scripts"]["start"] = "./bin/webpack-dev-server"
+
+          json["dependencies"].delete("babel-preset-react")
         end
 
         inside 'app/javascript/packs' do
@@ -96,19 +98,7 @@ module MakeItSo
             "coverage/*\n"
           end
 
-          run 'touch .babelrc'
-          modify_json(File.join(destination_root, '.babelrc')) do |json|
-            json["env"] ||= {}
-            json["env"]["test"] ||= {}
-            # Don't remove the comma at the end of the presets line! It's necessary for json validity in the final file
-            json["env"]["test"].merge!({
-              "env": {
-                "test": {
-                  "presets": ["@babel/env", "@babel/react"],
-                }
-              }
-            })
-          end
+          run "echo '#{snippet('babel_config.json')}' > .babelrc"
         end
       end
 
@@ -145,19 +135,7 @@ module MakeItSo
             })
           end
 
-          run 'touch .babelrc'
-          modify_json(File.join(destination_root, '.babelrc')) do |json|
-            json["env"] ||= {}
-            json["env"]["test"] ||= {}
-            # Don't remove the comma at the end of the presets line! It's necessary for json validity in the final file
-            json["env"]["test"].merge!({
-              "env": {
-                "test": {
-                  "presets": ["@babel/env", "@babel/react"],
-                }
-              }
-            })
-          end
+          run "echo '#{snippet('babel_config.json')}' > .babelrc"
         end
       end
 
