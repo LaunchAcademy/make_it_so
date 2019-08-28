@@ -271,14 +271,12 @@ module MakeItSo
       end
 
       def foundation_dependency
-        @generator.gem 'foundation-rails', '~> 5.0'
+        @generator.gem 'foundation-rails', '~> 6.5'
 
         after_bundle do
           generate 'foundation:install foundation'
           # foundation-rails generates an application layout so we
           # must remove it
-          # there is a pull request open to skip this:
-          # https://github.com/zurb/foundation-rails/pull/108
           remove_file 'app/views/layouts/foundation.html.erb'
 
           inside 'app/assets/javascripts' do
@@ -290,10 +288,10 @@ module MakeItSo
       end
 
       protected
-      PACKAGE_PATH = 'package.json'
-      WEBCONFIG_PATH = 'webpack.config.js'
 
-      protected
+      PACKAGE_PATH = "package.json"
+      WEBCONFIG_PATH = "webpack.config.js"
+
       def parsed_package_json
         @package_json ||= parse_json_file(package_json_file)
       end
