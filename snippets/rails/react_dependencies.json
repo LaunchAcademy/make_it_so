@@ -15,7 +15,8 @@
     "@babel/preset-env": "^7.5.5",
     "@babel/preset-react": "^7.0.0",
     "babel-loader": "^8.0.6",
-    "webpack-cli": "^2.0.10",
-    "webpack-dev-server": "^2.11.1"
+    "webpack": "~4.39.2",
+    "webpack-cli": "^3.3.6",
+    "webpack-dev-server": "~3.8.0"
   }
 }

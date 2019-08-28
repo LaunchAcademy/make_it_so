@@ -45,6 +45,15 @@ feature 'user generates rails app with default settings' do
     expect(File.read(app_layout)).to include('viewport')
   end
 
+  scenario 'installs webpack and webpacker' do
+    in_package_json?(File.join(app_path, 'package.json')) do |json|
+      expect(major_version(json["dependencies"]["@rails/webpacker"])).to be 4
+      expect(major_version(json["devDependencies"]["webpack"])).to be 4
+      expect(major_version(json["devDependencies"]["webpack-cli"])).to be 3
+      expect(major_version(json["devDependencies"]["webpack-dev-server"])).to be 3
+    end
+  end
+
   scenario 'skips active_storage' do
     expect(FileTest.exists?(join_paths(app_path, 'config/storage.yml'))).to eq(false)
   end

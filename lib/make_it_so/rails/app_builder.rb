@@ -48,7 +48,7 @@ module MakeItSo
       end
 
       def react
-        @generator.gem 'webpacker', '~> 3.3'
+        @generator.gem 'webpacker', '~> 4.0'
 
         rake 'webpacker:install'
         rake 'webpacker:install:react'

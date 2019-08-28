@@ -4,15 +4,13 @@ module.exports = function(config) {
   config.set({
     basePath: "",
     // use the PhantomJS browser
-    browsers: ['PhantomJS'],
+    browsers: ['ChromeHeadless'],
 
     // use the Jasmine testing framework
     frameworks: ['jasmine'],
 
     // files that Karma will server to the browser
     files: [
-      // use Babel polyfill to emulate a full ES6 environment in PhantomJS
-      'node_modules/@babel/polyfill/dist/polyfill.js',
       // entry file for Webpack
       'spec/javascript/testHelper.js'
     ],
@@ -31,8 +29,9 @@ module.exports = function(config) {
     webpack: {
       // generate sourcemaps
       devtool: 'eval-source-map',
+      mode: "development",
       module: {
-        loaders: [
+        rules: [
           // use babel-loader to transpile the test and src folders
           {
             test: /\.jsx?$/,
