@@ -1,6 +1,6 @@
 require 'spec_helper'
 
-feature "user generates rails app with karma flag" do
+feature "user generates rails app with karma/jasmine" do
   def app_name
     'dummy_rails'
   end
@@ -41,20 +41,16 @@ feature "user generates rails app with karma flag" do
     expect(read_file('.gitignore')).to include("coverage/*\n")
   end
 
-  context 'enzyme' do
-    it 'configures enzyme with adapter in testHelper' do
-      testHelper = read_file('spec/javascript/testHelper.js')
-      expect(testHelper).to include("Enzyme.configure({ adapter: new EnzymeAdapter() })")
-    end
+  it 'configures enzyme with adapter in testHelper' do
+    testHelper = read_file('spec/javascript/testHelper.js')
+    expect(testHelper).to include("Enzyme.configure({ adapter: new EnzymeAdapter() })")
   end
 
-  context 'babel' do
-    it 'karma.conf.js uses @babel/polyfill' do
-      expect(read_file('karma.conf.js')).to include("node_modules/@babel/polyfill/dist/polyfill.js")
-    end
+  it 'karma.conf.js uses @babel/polyfill' do
+    expect(read_file('karma.conf.js')).to include("node_modules/@babel/polyfill/dist/polyfill.js")
   end
 
-  scenario 'does not add jest as the test script in package.json' do
+  it 'does not add jest as the test script in package.json' do
     in_package_json?(package_json_path) do |json|
       expect(json["scripts"]["test"]).to_not include("jest")
     end
