@@ -357,63 +357,25 @@ feature 'user generates rails app with default settings' do
     end
   end
 
-  it 'creates a karma.config' do
+  it 'does not create a karma.config' do
     karma_config = File.join(app_path, 'karma.conf.js')
     expect(FileTest.exists?(karma_config)).to eq(false)
   end
-end
 
-feature "user generates rails app with karma flag" do
-  def app_name
-    'dummy_rails'
-  end
-
-  def app_path
-    join_paths(tmp_path, app_name)
-  end
-
-  before(:all) do
-    make_it_so!("rails #{app_name} --karma")
-  end
-
-  let(:package_json_path) { File.join(app_path, 'package.json') }
-
-  it 'creates a karma.config' do
-    karma_config = File.join(app_path, 'karma.conf.js')
-    expect(FileTest.exists?(karma_config)).to eq(true)
-  end
-
-  it 'creates a testHelper.js' do
+  it 'does not create a testHelper.js' do
     test_helper = File.join(app_path, 'spec/javascript/testHelper.js')
-    expect(FileTest.exists?(test_helper)).to eq(true)
+    expect(FileTest.exists?(test_helper)).to eq(false)
   end
 
-  it 'includes karma in package.json' do
+  it 'does not include karma in package.json' do
     in_package_json?(File.join(app_path, 'package.json')) do |json|
-      expect(json["devDependencies"]["karma"]).to_not be_nil
+      expect(json["devDependencies"]["karma"]).to be_nil
     end
   end
 
-  it 'includes jasmine in package.json' do
+  it 'does not include jasmine in package.json' do
     in_package_json?(File.join(app_path, 'package.json')) do |json|
-      expect(json["devDependencies"]["jasmine-core"]).to_not be_nil
-    end
-  end
-
-  it 'adds coverage/* to gitignore' do
-    expect(read_file('.gitignore')).to include("coverage/*\n")
-  end
-
-  context 'enzyme' do
-    it 'configures enzyme with adapter in testHelper' do
-      testHelper = read_file('spec/javascript/testHelper.js')
-      expect(testHelper).to include("Enzyme.configure({ adapter: new EnzymeAdapter() })")
-    end
-  end
-
-  context 'babel' do
-    it 'karma.conf.js uses @babel/polyfill' do
-      expect(read_file('karma.conf.js')).to include("node_modules/@babel/polyfill/dist/polyfill.js")
+      expect(json["devDependencies"]["jasmine-core"]).to be_nil
     end
   end
 end
