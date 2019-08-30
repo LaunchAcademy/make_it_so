@@ -43,10 +43,9 @@ feature "user generates rails app without js test framework" do
     end
   end
 
-  it 'does not add jest or karma as the test script in package.json' do
+  it 'does not add a test script in package.json' do
     in_package_json?(package_json_path) do |json|
-      expect(json["scripts"]["test"]).to_not include("jest")
-      expect(json["scripts"]["test"]).to_not include("karma")
+      expect(json["scripts"]["test"]).to be_nil
     end
   end
 end
