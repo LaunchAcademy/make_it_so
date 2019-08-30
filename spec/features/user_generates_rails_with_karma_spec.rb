@@ -10,7 +10,7 @@ feature "user generates rails app with karma/jasmine" do
   end
 
   before(:all) do
-    make_it_so!("rails #{app_name} --karma")
+    make_it_so!("rails #{app_name} --js-test-lib karma")
   end
 
   let(:package_json_path) { File.join(app_path, 'package.json') }
