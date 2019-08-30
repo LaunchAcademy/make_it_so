@@ -4,7 +4,7 @@ module MakeItSo
     desc "rails <app_name>",
       "generates a rails application based on your specifications"
     option :devise, type: :boolean
-    option :jest, type: :boolean
+    option :js_test_lib, default: "jest"
     def rails(app_name)
       MakeItSo::RailsAppGenerator.start(ARGV[1..-1])
     end

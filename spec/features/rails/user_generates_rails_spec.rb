@@ -1,6 +1,6 @@
 require 'spec_helper'
 
-feature 'user generates rails app' do
+feature 'user generates rails app with default settings' do
   def app_name
     'dummy_rails'
   end
@@ -9,7 +9,9 @@ feature 'user generates rails app' do
     join_paths(tmp_path, app_name)
   end
 
-  let(:css_manifest_path) { join_paths(app_path, 'app/assets/stylesheets/application.css') }
+  let(:css_manifest_path) {
+    join_paths(app_path, 'app/assets/stylesheets/application.css')
+  }
 
   let(:gemfile_path) { join_paths(app_path, 'Gemfile')}
   let(:package_json_path) { join_paths(app_path, 'package.json')}
@@ -232,40 +234,6 @@ feature 'user generates rails app' do
     end
   end
 
-  context 'karma' do
-    it 'creates a karma.config' do
-      karma_config = File.join(app_path, 'karma.conf.js')
-      expect(FileTest.exists?(karma_config)).to eq(true)
-    end
-
-    it 'creates a testHelper.js' do
-      test_helper = File.join(app_path, 'spec/javascript/testHelper.js')
-      expect(FileTest.exists?(test_helper)).to eq(true)
-    end
-
-    it 'includes karma in package.json' do
-      in_package_json?(File.join(app_path, 'package.json')) do |json|
-        expect(json["devDependencies"]["karma"]).to_not be_nil
-      end
-    end
-
-    it 'includes jasmine in package.json' do
-      in_package_json?(File.join(app_path, 'package.json')) do |json|
-        expect(json["devDependencies"]["jasmine-core"]).to_not be_nil
-      end
-    end
-
-    it 'includes fetch-mock' do
-      in_package_json?(File.join(app_path, 'package.json')) do |json|
-        expect(json["devDependencies"]["fetch-mock"]).to_not be_nil
-      end
-    end
-
-    it 'adds coverage/* to gitignore' do
-      expect(read_file('.gitignore')).to include("coverage/*\n")
-    end
-  end
-
   context 'dotenv' do
     it 'adds dotenv-rails to Gemfile' do
       expect(File.read(gemfile_path)).to match(/gem(.*)dotenv-rails/)
@@ -281,6 +249,23 @@ feature 'user generates rails app' do
 
     it 'creates a .env.example file' do
       expect(FileTest.exists?(File.join(app_path, '.env.example'))).to eq(true)
+    end
+  end
+
+  context 'babel' do
+    it 'includes necessary babel packages in package.json as dev dependencies' do
+      in_package_json?(File.join(app_path, 'package.json')) do |json|
+        expect(json["devDependencies"]["@babel/core"]).to_not be_nil
+        expect(json["devDependencies"]["@babel/preset-env"]).to_not be_nil
+        expect(json["devDependencies"]["@babel/preset-react"]).to_not be_nil
+        expect(json["devDependencies"]["babel-loader"]).to_not be_nil
+      end
+    end
+
+    it 'sets necessary presets in .babelrc' do
+      babelrc = read_file('.babelrc')
+      expect(babelrc).to include("@babel/env")
+      expect(babelrc).to include("@babel/react")
     end
   end
 
@@ -301,114 +286,101 @@ feature 'user generates rails app' do
       end
     end
 
-    it 'configures enzyme with adapter in testHelper' do
-      testHelper = read_file('spec/javascript/testHelper.js')
-      expect(testHelper).to include("Enzyme.configure({ adapter: new EnzymeAdapter() })")
+    it 'adds a spec/javascript/support/enzyme.js file' do
+      support_file = File.join(app_path, 'spec/javascript/support/enzyme.js')
+      expect(FileTest.exists?(support_file)).to eq(true)
     end
+
+    it 'adds spec/javascript/support/enzyme.js to setup' do
+      in_package_json?(package_json_path) do |json|
+        expect(json["jest"]).to_not be_nil
+        expect(json["jest"]["setupFiles"]).to include('./spec/javascript/support/enzyme.js')
+      end
+    end 
   end
 
-  context 'babel' do
-    it 'includes necessary babel packages in package.json as dev dependencies' do
+  context 'jest' do
+    it 'includes fetch-mock' do
       in_package_json?(File.join(app_path, 'package.json')) do |json|
-        expect(json["devDependencies"]["@babel/core"]).to_not be_nil
-        expect(json["devDependencies"]["@babel/preset-env"]).to_not be_nil
-        expect(json["devDependencies"]["@babel/preset-react"]).to_not be_nil
-        expect(json["devDependencies"]["babel-loader"]).to_not be_nil
+        expect(json["devDependencies"]["fetch-mock"]).to_not be_nil
       end
     end
 
-    it 'sets necessary presets in .babelrc' do
-      babelrc = read_file('.babelrc')
-      expect(babelrc).to include("@babel/env")
-      expect(babelrc).to include("@babel/react")
+    scenario 'adds jest as a dependency' do
+      in_package_json?(package_json_path) do |json|
+        expect(json["devDependencies"]["jest"]).to_not be_nil
+      end
     end
 
-    it 'karma.conf.js uses @babel/polyfill' do
-      expect(read_file('karma.conf.js')).to include("node_modules/@babel/polyfill/dist/polyfill.js")
+    scenario 'adds enzyme as a dependency' do
+      in_package_json?(package_json_path) do |json|
+        expect(json["devDependencies"]["enzyme"]).to_not be_nil
+      end
     end
-  end
-end
 
-feature 'jest' do
-  def app_name
-    'dummy_rails'
-  end
-
-  def app_path
-    join_paths(tmp_path, app_name)
-  end
-
-  before(:all) do
-    make_it_so!("rails #{app_name} --jest")
-  end
-
-  let(:package_json_path) { File.join(app_path, 'package.json') }
-
-
-  scenario 'adds jest as a dependency' do
-    in_package_json?(package_json_path) do |json|
-      expect(json["devDependencies"]["jest"]).to_not be_nil
+    scenario 'adds fetch-mock as a dependency' do
+      in_package_json?(package_json_path) do |json|
+        expect(json["devDependencies"]["fetch-mock"]).to_not be_nil
+      end
     end
-  end
 
-  scenario 'adds enzyme as a dependency' do
-    in_package_json?(package_json_path) do |json|
-      expect(json["devDependencies"]["enzyme"]).to_not be_nil
+    scenario 'adds jest as the test script in package.json' do
+      in_package_json?(package_json_path) do |json|
+        expect(json["scripts"]["test"]).to include("jest")
+      end
     end
-  end
 
-  scenario 'adds fetch-mock as a dependency' do
-    in_package_json?(package_json_path) do |json|
-      expect(json["devDependencies"]["fetch-mock"]).to_not be_nil
+    scenario 'adds spec/javascripts to roots' do
+      in_package_json?(package_json_path) do |json|
+        expect(json["jest"]).to_not be_nil
+        expect(json["jest"]["roots"]).to include("spec/javascript")
+      end
     end
-  end
 
-  scenario 'adds jest as the test script in package.json' do
-    in_package_json?(package_json_path) do |json|
-      expect(json["scripts"]["test"]).to include("jest")
+    scenario 'adds node_modules to modules directory' do
+      in_package_json?(package_json_path) do |json|
+        expect(json["jest"]).to_not be_nil
+        expect(json["jest"]["moduleDirectories"]).to_not be_nil
+        expect(json["jest"]["moduleDirectories"]).to include("node_modules")
+      end
     end
-  end
 
-  scenario 'adds spec/javascripts to roots' do
-    in_package_json?(package_json_path) do |json|
-      expect(json["jest"]).to_not be_nil
-      expect(json["jest"]["roots"]).to include("spec/javascript")
+    scenario 'adds app/javascript to modules directory' do
+      in_package_json?(package_json_path) do |json|
+        expect(json["jest"]).to_not be_nil
+        expect(json["jest"]["moduleDirectories"]).to_not be_nil
+        expect(json["jest"]["moduleDirectories"]).to include("app/javascript")
+      end
+    end
+
+    scenario 'adds testURL to jest configuration' do
+      in_package_json?(package_json_path) do |json|
+        expect(json["jest"]).to_not be_nil
+        expect(json["jest"]["testURL"]).to_not be_nil
+        expect(json["jest"]["testURL"]).to eq("http://localhost/")
+      end
     end
   end
 
-  scenario 'adds node_modules to modules directory' do
-    in_package_json?(package_json_path) do |json|
-      expect(json["jest"]).to_not be_nil
-      expect(json["jest"]["moduleDirectories"]).to_not be_nil
-      expect(json["jest"]["moduleDirectories"]).to include("node_modules")
+  it 'does not create a karma.config' do
+    karma_config = File.join(app_path, 'karma.conf.js')
+    expect(FileTest.exists?(karma_config)).to eq(false)
+  end
+
+  it 'does not create a testHelper.js' do
+    test_helper = File.join(app_path, 'spec/javascript/testHelper.js')
+    expect(FileTest.exists?(test_helper)).to eq(false)
+  end
+
+  it 'does not include karma in package.json' do
+    in_package_json?(File.join(app_path, 'package.json')) do |json|
+      expect(json["devDependencies"]["karma"]).to be_nil
     end
   end
 
-  scenario 'adds app/javascript to modules directory' do
-    in_package_json?(package_json_path) do |json|
-      expect(json["jest"]).to_not be_nil
-      expect(json["jest"]["moduleDirectories"]).to_not be_nil
-      expect(json["jest"]["moduleDirectories"]).to include("app/javascript")
-    end
-  end
-
-  scenario 'adds testURL to jest configuration' do
-    in_package_json?(package_json_path) do |json|
-      expect(json["jest"]).to_not be_nil
-      expect(json["jest"]["testURL"]).to_not be_nil
-      expect(json["jest"]["testURL"]).to eq("http://localhost/")
-    end
-  end
-
-  scenario 'adds a spec/javascript/support/enzyme.js file' do
-    support_file = File.join(app_path, 'spec/javascript/support/enzyme.js')
-    expect(FileTest.exists?(support_file)).to eq(true)
-  end
-
-  scenario 'adds spec/javascript/support/enzyme.js to setup' do
-    in_package_json?(package_json_path) do |json|
-      expect(json["jest"]).to_not be_nil
-      expect(json["jest"]["setupFiles"]).to include('./spec/javascript/support/enzyme.js')
+  it 'does not include jasmine in package.json' do
+    in_package_json?(File.join(app_path, 'package.json')) do |json|
+      expect(json["devDependencies"]["jasmine-core"]).to be_nil
     end
   end
 end

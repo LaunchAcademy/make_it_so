@@ -78,7 +78,7 @@ module MakeItSo
 
       def karma
         after_bundle do
-          unparsed_json = snippet('js_testing_deps.json')
+          unparsed_json = snippet('js_karma_jasmine_testing_deps.json')
           parsed_json = JSON.parse(unparsed_json)
 
           modify_json(package_json_file) do |json|

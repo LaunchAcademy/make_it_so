@@ -41,7 +41,7 @@ By default, the generator will create a Rails app with the following options act
 - Postgres
 - Foundation
 - React
-- Karma
+- Jest
 
 To take advantage of view-specific javascript, inject a script tag at the end of the body tag. Javascript should always be the last thing loaded on the page. In view logic you can do the following:
 
@@ -53,7 +53,7 @@ var widget = new Something.Widget('foo');
 <% end %>
 ```
 
-There is experimental support for a `--jest` flag that will use Jest for client side testing instead of karma/jasmine.
+Using the `--js-test-lib` flag, it is also possible to set up a Karma/Jasmine test framework instead of Jest (`--js-test-lib karma`) or to omit either framework (`--js-test-lib false`).
 
 ### Sinatra
 

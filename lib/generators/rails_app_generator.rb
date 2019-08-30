@@ -52,15 +52,11 @@ module MakeItSo
       default: true,
       desc: 'Generate React setup'
 
-    class_option :karma,
-      type: :boolean,
-      default: true,
-      desc: 'Generate karma testing setup'
-
-    class_option :jest,
-      type: :boolean,
-      default: false,
-      desc: 'Generate jest testing setup'
+    class_option :js_test_lib,
+      type: :string,
+      default: "jest",
+      desc: 
+        "Generate Jest testing framework (default), Karma/Jasmine ('karma'), or no framework ('false')"
 
     def initialize(*args)
       super
@@ -106,13 +102,13 @@ module MakeItSo
         build 'react'
       end
 
-      if options[:jest]
+      if options[:js_test_lib] == "jest"
         build 'jest'
-      elsif options[:karma]
+      elsif options[:js_test_lib] == "karma"
         build 'karma'
       end
 
-      if options[:react] || options[:jest] || options[:karma]
+      if options[:react] || options[:js_test_lib]
         build 'yarn_install'
       end
     end
