@@ -4,20 +4,13 @@
   <title><%= camelized %></title>
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <%%= stylesheet_link_tag 'application', media: 'all' %>
-  <% if options.foundation? %>
-    <%%= javascript_include_tag "vendor/modernizr" %>
-  <% end %>
   <%%= csrf_meta_tags %>
 </head>
 <body>
   <%- if options.devise? -%>
   <% if options.foundation? %>
   <nav class="top-bar">
-    <ul class="title-area">
-      <li class="name">
-        <h1><a href="/"><%= camelized %></a></h1>
-      </li>
-    </ul>
+    <h1><a href="/"><%= camelized %></a></h1>
 
     <section class="top-bar-section">
       <ul class="right">
