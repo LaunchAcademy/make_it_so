@@ -98,7 +98,7 @@ module MakeItSo
             "coverage/*\n"
           end
 
-          run "echo '#{snippet('babel_config.json')}' > .babelrc"
+          template '.babelrc'
         end
       end
 
@@ -135,7 +135,7 @@ module MakeItSo
             })
           end
 
-          run "echo '#{snippet('babel_config.json')}' > .babelrc"
+          template '.babelrc'
         end
       end
 
