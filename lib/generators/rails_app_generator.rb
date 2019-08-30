@@ -56,7 +56,7 @@ module MakeItSo
       type: :string,
       default: "jest",
       desc: 
-        "Generate Jest testing framework (default), Karma/Jasmine ('karma'), or no framework ('none')"
+        "Generate Jest testing framework (default), Karma/Jasmine ('karma'), or no framework ('false')"
 
     def initialize(*args)
       super
@@ -108,8 +108,7 @@ module MakeItSo
         build 'karma'
       end
 
-      # if options[:react] || options[:jest] || options[:karma]
-      if options[:react] || options[:js_test_lib] != "none"
+      if options[:react] || options[:js_test_lib]
         build 'yarn_install'
       end
     end
