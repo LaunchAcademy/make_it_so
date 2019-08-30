@@ -45,6 +45,11 @@ feature 'user generates rails app' do
 
   scenario 'installs webpack and webpacker' do
     in_package_json?(File.join(app_path, 'package.json')) do |json|
+      expect(json["dependencies"]["@rails/webpacker"]).to_not be_nil
+      expect(json["devDependencies"]["webpack"]).to_not be_nil
+      expect(json["devDependencies"]["webpack-cli"]).to_not be_nil
+      expect(json["devDependencies"]["webpack-dev-server"]).to_not be_nil
+
       expect(major_version(json["dependencies"]["@rails/webpacker"])).to be 4
       expect(major_version(json["devDependencies"]["webpack"])).to be 4
       expect(major_version(json["devDependencies"]["webpack-cli"])).to be 3
