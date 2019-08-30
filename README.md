@@ -53,7 +53,7 @@ var widget = new Something.Widget('foo');
 <% end %>
 ```
 
-There is support for a `--karma` flag that will use karma/jasmine for client-side testing instead of Jest.
+Using the `--js-test-lib` flag, it is also possible to set up a Karma/Jasmine test framework instead of Jest (`--js-test-lib karma`) or to omit either framework (`--js-test-lib false`).
 
 ### Sinatra
 
