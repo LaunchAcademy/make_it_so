@@ -136,6 +136,7 @@ module MakeItSo
             })
           end
 
+          remove_file '.babelrc'
           template '.babelrc'
         end
       end
