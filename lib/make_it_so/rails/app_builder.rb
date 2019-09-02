@@ -98,6 +98,7 @@ module MakeItSo
             "coverage/*\n"
           end
 
+          remove_file '.babelrc'
           template '.babelrc'
         end
       end
