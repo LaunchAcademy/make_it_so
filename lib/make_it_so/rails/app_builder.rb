@@ -81,6 +81,11 @@ module MakeItSo
           unparsed_json = snippet('js_karma_jasmine_testing_deps.json')
           parsed_json = JSON.parse(unparsed_json)
 
+          run 'mkdir -p spec/javascript/support'
+          inside 'spec/javascript/support' do
+            template 'enzyme.js'
+          end
+
           modify_json(package_json_file) do |json|
             json["devDependencies"] ||= {}
             json["devDependencies"].merge!(parsed_json["devDependencies"])
