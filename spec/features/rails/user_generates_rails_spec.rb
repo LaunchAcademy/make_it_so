@@ -383,6 +383,11 @@ feature 'user generates rails app with default settings' do
     expect(FileTest.exists?(test_helper)).to eq(false)
   end
 
+  it 'creates example.test.js' do
+    test_helper = File.join(app_path, 'spec/javascript/example.test.js')
+    expect(FileTest.exists?(test_helper)).to eq(true)
+  end
+
   it 'does not include karma in package.json' do
     in_package_json?(File.join(app_path, 'package.json')) do |json|
       expect(json["devDependencies"]["karma"]).to be_nil
