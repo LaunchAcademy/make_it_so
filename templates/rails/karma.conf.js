@@ -3,8 +3,8 @@ var path = require('path');
 module.exports = function(config) {
   config.set({
     basePath: "",
-    // use the PhantomJS browser
-    browsers: ['PhantomJS'],
+    // use the Chrome Headless browser
+    browsers: ['ChromeHeadless'],
 
     // use the Jasmine testing framework
     frameworks: ['jasmine'],
