@@ -78,14 +78,11 @@ module MakeItSo
 
       def karma
         after_bundle do
-          run 'mkdir -p spec/javascript/support'
-          inside 'spec/javascript/support' do
-            template 'enzyme.js'
-          end
-
           add_test_dependency_snippets(
             ["js_karma_jasmine_testing_deps.json", "js_enzyme_testing_deps.json"]
           )
+
+          create_enzyme_config
 
           template 'karma.conf.js'
           inside 'spec/javascript' do
@@ -104,14 +101,11 @@ module MakeItSo
 
       def jest
         after_bundle do
-          run 'mkdir -p spec/javascript/support'
-          inside 'spec/javascript/support' do
-            template 'enzyme.js'
-          end
-
           add_test_dependency_snippets(
             ["js_jest_testing_deps.json", "js_enzyme_testing_deps.json"]
           )
+
+          create_enzyme_config
 
           remove_file '.babelrc'
           template '.babelrc'
@@ -283,6 +277,17 @@ module MakeItSo
               json[key].merge!(parsed_snippet[key])
             end
           end
+        end
+      end
+
+      def create_enzyme_config 
+        run 'mkdir -p spec/javascript/support'
+        devDependencies = parsed_package_json["devDependencies"].keys
+        enzymeAdapter = devDependencies.select{ |d| d =~ /^enzyme-adapter-react-[0-9]*/ }[0]
+
+        inside 'spec/javascript/support' do
+          template 'enzyme.js'
+          gsub_file 'enzyme.js', 'ADAPTER NAME GOES HERE', enzymeAdapter
         end
       end
 

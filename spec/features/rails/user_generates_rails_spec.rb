@@ -292,6 +292,7 @@ feature 'user generates rails app with default settings' do
       expect(FileTest.exists?(support_file)).to eq(true)
 
       enzyme = read_file(file_subpath)
+      expect(enzyme).to include('require("enzyme-adapter-react-16")')
       expect(enzyme).to include("Enzyme.configure")
       expect(enzyme).to include("enzyme-adapter-react-16")
     end
