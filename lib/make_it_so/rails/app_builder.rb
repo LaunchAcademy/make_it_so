@@ -94,8 +94,8 @@ module MakeItSo
             "coverage/*\n"
           end
 
-          remove_file '.babelrc'
-          template '.babelrc'
+          remove_file 'babel.config.js'
+          template 'babel.config.js'
         end
       end
 
@@ -107,8 +107,8 @@ module MakeItSo
 
           create_enzyme_config
 
-          remove_file '.babelrc'
-          template '.babelrc'
+          remove_file 'babel.config.js'
+          template 'babel.config.js'
         end
       end
 

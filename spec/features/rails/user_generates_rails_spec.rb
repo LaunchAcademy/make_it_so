@@ -262,10 +262,15 @@ feature 'user generates rails app with default settings' do
       end
     end
 
-    it 'sets necessary presets in .babelrc' do
-      babelrc = read_file('.babelrc')
-      expect(babelrc).to include("@babel/env")
-      expect(babelrc).to include("@babel/react")
+    it 'does not create .babelrc' do 
+      babelrc = File.join(app_path, '.babelrc')
+      expect(FileTest.exists?(babelrc)).to eq(false)
+    end
+
+    it 'sets necessary presets in babel.config.js' do
+      babel_config = read_file('babel.config.js')
+      expect(babel_config).to include("@babel/env")
+      expect(babel_config).to include("@babel/react")
     end
   end
 
