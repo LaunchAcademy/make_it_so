@@ -78,15 +78,11 @@ module MakeItSo
 
       def karma
         after_bundle do
-          unparsed_json = snippet('js_karma_jasmine_testing_deps.json')
-          parsed_json = JSON.parse(unparsed_json)
+          add_test_dependency_snippets(
+            ["js_karma_jasmine_testing_deps.json", "js_enzyme_testing_deps.json"]
+          )
 
-          modify_json(package_json_file) do |json|
-            json["devDependencies"] ||= {}
-            json["devDependencies"].merge!(parsed_json["devDependencies"])
-            json["scripts"] ||= {}
-            json["scripts"]["test"] = "node_modules/.bin/karma start karma.conf.js"
-          end
+          create_enzyme_config
 
           template 'karma.conf.js'
           inside 'spec/javascript' do
@@ -105,36 +101,11 @@ module MakeItSo
 
       def jest
         after_bundle do
-          unparsed_json = snippet('js_jest_testing_deps.json')
-          parsed_json = JSON.parse(unparsed_json)
+          add_test_dependency_snippets(
+            ["js_jest_testing_deps.json", "js_enzyme_testing_deps.json"]
+          )
 
-          run 'mkdir -p spec/javascript/support'
-          inside 'spec/javascript/support' do
-            template 'enzyme.js'
-          end
-
-          modify_json(package_json_file) do |json|
-            json["devDependencies"] ||= {}
-            json["devDependencies"].merge!(parsed_json["devDependencies"])
-            json["scripts"] ||= {}
-            json["scripts"]["test"] = "node_modules/.bin/jest"
-            json["scripts"]["test:dev"] = "node_modules/.bin/jest --notify --watch"
-            json["jest"] ||= {}
-            json["jest"].merge!({
-              "automock": false,
-              "roots": [
-                "spec/javascript"
-              ],
-              "moduleDirectories": [
-                "node_modules",
-                "app/javascript"
-              ],
-              "setupFiles": [
-                "./spec/javascript/support/enzyme.js"
-              ],
-              "testURL": "http://localhost/"
-            })
-          end
+          create_enzyme_config
 
           remove_file '.babelrc'
           template '.babelrc'
@@ -293,6 +264,32 @@ module MakeItSo
 
       PACKAGE_PATH = "package.json"
       WEBCONFIG_PATH = "webpack.config.js"
+
+      def add_test_dependency_snippets(snippet_paths)
+        snippet_paths.each do |snippet_path|
+          snippet = snippet(snippet_path)
+          parsed_snippet = JSON.parse(snippet)
+          keys = parsed_snippet.keys
+
+          modify_json(package_json_file) do |json|
+            keys.each do |key|
+              json[key] ||= {}
+              json[key].merge!(parsed_snippet[key])
+            end
+          end
+        end
+      end
+
+      def create_enzyme_config 
+        run 'mkdir -p spec/javascript/support'
+        devDependencies = parsed_package_json["devDependencies"].keys
+        enzymeAdapter = devDependencies.select{ |d| d =~ /^enzyme-adapter-react-[0-9]*/ }[0]
+
+        inside 'spec/javascript/support' do
+          template 'enzyme.js'
+          gsub_file 'enzyme.js', 'ADAPTER NAME GOES HERE', enzymeAdapter
+        end
+      end
 
       def parsed_package_json
         @package_json ||= parse_json_file(package_json_file)
