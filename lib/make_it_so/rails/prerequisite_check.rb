@@ -13,7 +13,7 @@ module MakeItSo
           puts ::Rails.version
           if ::Rails.version != MakeItSo::Rails::VERSION
             say "Rails versions check FAILED - execute the following", :red 
-            say "gem uninstall rails -a && gem install rails -v #{MakeItSo::Rails::VERSION}"
+            say "gem uninstall rails railties -a && gem install rails -v #{MakeItSo::Rails::VERSION}"
             return false
           else
             say "Rails version MATCH", :green
