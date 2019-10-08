@@ -6,6 +6,9 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+- skip bootsnap by default
+- added prerequisite rails version check
+
 ## [0.5.0] - 2019-09-02
 
 ### Added
@@ -20,4 +23,5 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - `modernizr` was removed
 - Development runtime was upgraded to ruby v2.6.3
 
+[Unreleased]:https://github.com/LaunchAcademy/make_it_so/compare/v0.5.0...HEAD
 [0.5.0]:https://github.com/LaunchAcademy/make_it_so/compare/v0.4.5...v0.5.0
