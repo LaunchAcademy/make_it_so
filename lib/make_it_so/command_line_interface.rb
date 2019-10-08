@@ -6,7 +6,9 @@ module MakeItSo
     option :devise, type: :boolean
     option :js_test_lib, default: "jest"
     def rails(app_name)
-      MakeItSo::RailsAppGenerator.start(ARGV[1..-1])
+      if MakeItSo::Rails::PrerequisiteCheck.new.check
+        MakeItSo::RailsAppGenerator.start(ARGV[1..-1])
+      end
     end
 
     desc "sinatra <app_name>",
