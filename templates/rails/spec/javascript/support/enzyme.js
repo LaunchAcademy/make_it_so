@@ -1,4 +1,4 @@
 const Enzyme = require('enzyme');
-const EnzymeAdapter = require('enzyme-adapter-react-15.4');
+const EnzymeAdapter = require("ADAPTER NAME GOES HERE");
 
 Enzyme.configure({ adapter: new EnzymeAdapter() });

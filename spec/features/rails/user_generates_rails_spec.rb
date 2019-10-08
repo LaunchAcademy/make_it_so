@@ -286,9 +286,15 @@ feature 'user generates rails app with default settings' do
       end
     end
 
-    it 'adds a spec/javascript/support/enzyme.js file' do
-      support_file = File.join(app_path, 'spec/javascript/support/enzyme.js')
+    it 'includes enzyme.js with correct Enzyme config' do
+      file_subpath = "spec/javascript/support/enzyme.js"
+      support_file = File.join(app_path, file_subpath)
       expect(FileTest.exists?(support_file)).to eq(true)
+
+      enzyme = read_file(file_subpath)
+      expect(enzyme).to include('require("enzyme-adapter-react-16")')
+      expect(enzyme).to include("Enzyme.configure")
+      expect(enzyme).to include("enzyme-adapter-react-16")
     end
 
     it 'adds spec/javascript/support/enzyme.js to setup' do

@@ -1,7 +1,3 @@
-const Enzyme = require('enzyme');
-const EnzymeAdapter = require('enzyme-adapter-react-16');
-Enzyme.configure({ adapter: new EnzymeAdapter() });
-
 import { shallow, mount } from 'enzyme';
 import jasmineEnzyme from 'jasmine-enzyme';
 import React from 'react';

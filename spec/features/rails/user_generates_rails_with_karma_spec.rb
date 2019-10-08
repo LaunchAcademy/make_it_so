@@ -41,9 +41,19 @@ feature "user generates rails app with karma/jasmine" do
     expect(read_file('.gitignore')).to include("coverage/*\n")
   end
 
-  it 'configures enzyme with adapter in testHelper' do
+  it 'does not configure enzyme adapter in testHelper' do
     testHelper = read_file('spec/javascript/testHelper.js')
-    expect(testHelper).to include("Enzyme.configure({ adapter: new EnzymeAdapter() })")
+    expect(testHelper).to_not include("Enzyme.configure({ adapter: new EnzymeAdapter() })")
+  end
+
+  it 'includes enzyme.js with correct Enzyme config' do
+    file_subpath = "spec/javascript/support/enzyme.js"
+    support_file = File.join(app_path, file_subpath)
+    expect(FileTest.exists?(support_file)).to eq(true)
+
+    enzyme = read_file(file_subpath)
+    expect(enzyme).to include("Enzyme.configure")
+    expect(enzyme).to include("enzyme-adapter-react-16")
   end
 
   it 'karma.conf.js uses @babel/polyfill' do
