@@ -6,6 +6,9 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+- skip bootsnap by default
+- added prerequisite rails version check
+
 ## [0.5.0] - 2019-09-02
 
 ### Added
