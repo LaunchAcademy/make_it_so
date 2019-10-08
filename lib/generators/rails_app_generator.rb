@@ -57,6 +57,12 @@ module MakeItSo
       default: "jest",
       desc: 
         "Generate Jest testing framework (default), Karma/Jasmine ('karma'), or no framework ('false')"
+      
+    class_option :skip_bootsnap,
+      type: :boolean,
+      default: true,
+      desc:
+        "Skip bootsnap"
 
     def initialize(*args)
       super
