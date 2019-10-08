@@ -22,6 +22,7 @@ Gem::Specification.new do |spec|
   spec.add_dependency "railties", "~> 5.2"
   spec.add_dependency "activerecord", "~> 5.2"
   spec.add_dependency "json"
+  spec.add_dependency "rake", '12.3.2' # this version was chosen to satisfy Codeship's reqs
 
   spec.add_development_dependency "bundler", "~> 2.0.2"
   spec.add_development_dependency "rspec"
