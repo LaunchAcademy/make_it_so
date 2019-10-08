@@ -12,7 +12,8 @@
   "jest": {
     "automock": false,
     "roots": [
-      "spec/javascript"
+      "spec/javascript", 
+      "app/javascript"
     ],
     "moduleDirectories": [
       "node_modules",
