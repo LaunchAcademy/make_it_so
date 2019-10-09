@@ -6,6 +6,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+## [0.5.1] - 2019-10-08
+
 - skip bootsnap by default
 - added prerequisite rails version check
 - adjust webpacker routines to run `after_bundle`
@@ -26,4 +28,5 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Development runtime was upgraded to ruby v2.6.3
 
 [Unreleased]:https://github.com/LaunchAcademy/make_it_so/compare/v0.5.0...HEAD
+[0.5.1]:https://github.com/LaunchAcademy/make_it_so/compare/v0.5.0...v0.5.1
 [0.5.0]:https://github.com/LaunchAcademy/make_it_so/compare/v0.4.5...v0.5.0
