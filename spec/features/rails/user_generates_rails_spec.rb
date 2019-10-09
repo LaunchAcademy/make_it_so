@@ -125,6 +125,11 @@ feature 'user generates rails app with default settings' do
       it 'includes a shoulda file in the support directory' do
         expect(FileTest.exists?(join_paths(app_path, 'spec/support/shoulda.rb')))
       end
+
+      it 'requires the shoulda support file' do
+        expect(File.read(rails_spec_helper)).
+          to include("\nrequire File.join(File.dirname(__FILE__), 'support/shoulda')\n")
+      end
     end
 
     context 'database_cleaner' do
