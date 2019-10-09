@@ -264,8 +264,8 @@ feature 'user generates rails app with default settings' do
 
     it 'sets necessary presets in babel.config.js' do
       babel_config = read_file('babel.config.js')
-      expect(babel_config).to include("@babel/env")
-      expect(babel_config).to include("@babel/react")
+      expect(babel_config).to include("@babel/preset-env")
+      expect(babel_config).to include("@babel/preset-react")
     end
   end
 
