@@ -18,7 +18,7 @@ module.exports = function(api) {
   return {
     presets: [
       isTestEnv && [
-        require('@babel/env').default,
+        require('@babel/preset-env').default,
         {
           targets: {
             node: 'current'
@@ -26,7 +26,7 @@ module.exports = function(api) {
         }
       ],
       (isProductionEnv || isDevelopmentEnv) && [
-        require('@babel/env').default,
+        require('@babel/preset-env').default,
         {
           forceAllTransforms: true,
           useBuiltIns: 'entry',
@@ -36,7 +36,7 @@ module.exports = function(api) {
         }
       ],
       [
-        require('@babel/react').default,
+        require('@babel/preset-react').default,
         {
           development: isDevelopmentEnv || isTestEnv,
           useBuiltIns: true
