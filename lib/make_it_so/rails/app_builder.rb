@@ -50,29 +50,31 @@ module MakeItSo
       def react
         @generator.gem 'webpacker', '~> 3.3'
 
-        rake 'webpacker:install'
-        rake 'webpacker:install:react'
-        remove_file 'app/javascript/packs/application.js'
-        remove_file 'app/javascript/packs/hello_react.jsx'
+        after_bundle do
+          rake 'webpacker:install'
+          rake 'webpacker:install:react'
+          remove_file 'app/javascript/packs/application.js'
+          remove_file 'app/javascript/packs/hello_react.jsx'
 
-        unparsed_json = snippet('react_dependencies.json')
-        parsed_json = JSON.parse(unparsed_json)
+          unparsed_json = snippet('react_dependencies.json')
+          parsed_json = JSON.parse(unparsed_json)
 
-        modify_json(package_json_file) do |json|
-          ["dependencies", "devDependencies"].each do |key|
-            json[key] ||= {}
-            json[key].merge!(parsed_json[key])
+          modify_json(package_json_file) do |json|
+            ["dependencies", "devDependencies"].each do |key|
+              json[key] ||= {}
+              json[key].merge!(parsed_json[key])
+            end
+
+            json["scripts"] ||= {}
+            json["scripts"]["start"] = "./bin/webpack-dev-server"
+
+            json["dependencies"].delete("babel-preset-react")
           end
 
-          json["scripts"] ||= {}
-          json["scripts"]["start"] = "./bin/webpack-dev-server"
-
-          json["dependencies"].delete("babel-preset-react")
-        end
-
-        inside 'app/javascript/packs' do
-          copy_file 'new_application.js', 'application.js'
-          remove_file 'new_application.js'
+          inside 'app/javascript/packs' do
+            copy_file 'new_application.js', 'application.js'
+            remove_file 'new_application.js'
+          end
         end
       end
 
@@ -129,14 +131,16 @@ module MakeItSo
       end
 
       def rspec_dependency
-        @generator.gem 'rspec-rails', group: [:development, :test]
+        @generator.gem 'rspec-rails', '3.8.2', group: [:development, :test]
         @generator.gem 'capybara', group: [:development, :test]
         @generator.gem 'launchy', group: [:development, :test]
 
         after_bundle do
-          #stop spring in case it is running - it will hang
-          #https://github.com/rails/rails/issues/13381
-          run 'spring stop'
+          if !options[:skip_spring]
+            #stop spring in case it is running - it will hang
+            #https://github.com/rails/rails/issues/13381
+            run 'spring stop'
+          end
           generate 'rspec:install'
           inside 'spec' do
             empty_directory 'support'
