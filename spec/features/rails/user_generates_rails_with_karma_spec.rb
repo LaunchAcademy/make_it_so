@@ -56,8 +56,8 @@ feature "user generates rails app with karma/jasmine" do
     expect(enzyme).to include("enzyme-adapter-react-16")
   end
 
-  it 'karma.conf.js uses @babel/polyfill' do
-    expect(read_file('karma.conf.js')).to include("node_modules/@babel/polyfill/dist/polyfill.js")
+  it 'karma.conf.js does not use @babel/polyfill' do
+    expect(read_file('karma.conf.js')).to_not include("node_modules/@babel/polyfill/dist/polyfill.js")
   end
 
   it 'does not add jest as the test script in package.json' do

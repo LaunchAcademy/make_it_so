@@ -1,8 +1,8 @@
 {
   "devDependencies": {
-    "babel-jest": "~23.4.0",
+    "babel-jest": "^24.9.0",
     "fetch-mock": "~5.13.1",
-    "jest": "~23.4.1"
+    "jest": "^24.9.0"
   },
   "scripts": {
     "start": "./bin/webpack-dev-server",
@@ -12,7 +12,8 @@
   "jest": {
     "automock": false,
     "roots": [
-      "spec/javascript"
+      "spec/javascript", 
+      "app/javascript"
     ],
     "moduleDirectories": [
       "node_modules",

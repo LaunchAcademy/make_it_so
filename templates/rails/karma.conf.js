@@ -3,16 +3,14 @@ var path = require('path');
 module.exports = function(config) {
   config.set({
     basePath: "",
-    // use the PhantomJS browser
-    browsers: ['PhantomJS'],
+    // use the Chrome Headless browser
+    browsers: ['ChromeHeadless'],
 
     // use the Jasmine testing framework
     frameworks: ['jasmine'],
 
     // files that Karma will server to the browser
     files: [
-      // use Babel polyfill to emulate a full ES6 environment in PhantomJS
-      'node_modules/@babel/polyfill/dist/polyfill.js',
       // entry file for Webpack
       'spec/javascript/testHelper.js'
     ],

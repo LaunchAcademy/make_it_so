@@ -8,6 +8,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 - skip bootsnap by default
 - added prerequisite rails version check
+- adjust webpacker routines to run `after_bundle`
+- only stop spring if it is being installed
 
 ## [0.5.0] - 2019-09-02
 

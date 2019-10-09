@@ -49,16 +49,6 @@ feature 'user generates rails app with default settings' do
     expect(FileTest.exists?(join_paths(app_path, 'config/storage.yml'))).to eq(false)
   end
 
-  scenario 'creates a valid gemfile' do
-    words = ['source', '#', 'gem', 'group', 'end', 'ruby']
-
-    File.readlines('Gemfile').each do |line|
-      unless line.strip.empty?
-        expect(line.strip.start_with?(*words)).to eq(true)
-      end
-    end
-  end
-
   context 'pry-rails' do
     it 'is added as a dependency' do
       expect(File.read(gemfile_path)).to match(/gem(.*)pry-rails/)
@@ -255,17 +245,22 @@ feature 'user generates rails app with default settings' do
   context 'babel' do
     it 'includes necessary babel packages in package.json as dev dependencies' do
       in_package_json?(File.join(app_path, 'package.json')) do |json|
-        expect(json["devDependencies"]["@babel/core"]).to_not be_nil
-        expect(json["devDependencies"]["@babel/preset-env"]).to_not be_nil
-        expect(json["devDependencies"]["@babel/preset-react"]).to_not be_nil
-        expect(json["devDependencies"]["babel-loader"]).to_not be_nil
+        expect(json["dependencies"]["@babel/core"]).to_not be_nil
+        expect(json["dependencies"]["@babel/preset-env"]).to_not be_nil
+        expect(json["dependencies"]["@babel/preset-react"]).to_not be_nil
+        expect(json["dependencies"]["babel-loader"]).to_not be_nil
       end
     end
 
-    it 'sets necessary presets in .babelrc' do
-      babelrc = read_file('.babelrc')
-      expect(babelrc).to include("@babel/env")
-      expect(babelrc).to include("@babel/react")
+    it 'does not create .babelrc' do 
+      babelrc = File.join(app_path, '.babelrc')
+      expect(FileTest.exists?(babelrc)).to eq(false)
+    end
+
+    it 'sets necessary presets in babel.config.js' do
+      babel_config = read_file('babel.config.js')
+      expect(babel_config).to include("@babel/env")
+      expect(babel_config).to include("@babel/react")
     end
   end
 
