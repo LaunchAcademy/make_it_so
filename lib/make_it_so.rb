@@ -11,6 +11,7 @@ end
 require "make_it_so/version"
 
 require "make_it_so/rails"
+require 'make_it_so/rails/app_builder'
 
 require "make_it_so/rails/prerequisite_check"
 

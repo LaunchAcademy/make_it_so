@@ -49,16 +49,6 @@ feature 'user generates rails app with default settings' do
     expect(FileTest.exists?(join_paths(app_path, 'config/storage.yml'))).to eq(false)
   end
 
-  scenario 'creates a valid gemfile' do
-    words = ['source', '#', 'gem', 'group', 'end', 'ruby']
-
-    File.readlines('Gemfile').each do |line|
-      unless line.strip.empty?
-        expect(line.strip.start_with?(*words)).to eq(true)
-      end
-    end
-  end
-
   context 'pry-rails' do
     it 'is added as a dependency' do
       expect(File.read(gemfile_path)).to match(/gem(.*)pry-rails/)
@@ -255,10 +245,10 @@ feature 'user generates rails app with default settings' do
   context 'babel' do
     it 'includes necessary babel packages in package.json as dev dependencies' do
       in_package_json?(File.join(app_path, 'package.json')) do |json|
-        expect(json["devDependencies"]["@babel/core"]).to_not be_nil
-        expect(json["devDependencies"]["@babel/preset-env"]).to_not be_nil
-        expect(json["devDependencies"]["@babel/preset-react"]).to_not be_nil
-        expect(json["devDependencies"]["babel-loader"]).to_not be_nil
+        expect(json["dependencies"]["@babel/core"]).to_not be_nil
+        expect(json["dependencies"]["@babel/preset-env"]).to_not be_nil
+        expect(json["dependencies"]["@babel/preset-react"]).to_not be_nil
+        expect(json["dependencies"]["babel-loader"]).to_not be_nil
       end
     end
 
@@ -381,11 +371,6 @@ feature 'user generates rails app with default settings' do
   it 'does not create a testHelper.js' do
     test_helper = File.join(app_path, 'spec/javascript/testHelper.js')
     expect(FileTest.exists?(test_helper)).to eq(false)
-  end
-
-  it 'creates example.test.js' do
-    test_helper = File.join(app_path, 'spec/javascript/example.test.js')
-    expect(FileTest.exists?(test_helper)).to eq(true)
   end
 
   it 'does not include karma in package.json' do
