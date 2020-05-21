@@ -1,7 +1,7 @@
 module MakeItSoSpecHelpers
   def make_it_so!(subcommand_with_args)
     Dir.chdir(tmp_path) do
-      Bundler.with_clean_env do
+      Bundler.with_original_env do
         `#{join_paths(bin_path, 'make_it_so')} #{subcommand_with_args}`
       end
     end
