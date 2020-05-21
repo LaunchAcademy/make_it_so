@@ -30,8 +30,9 @@ make_it_so rails <app_name>
 Then run:
 
 ```ruby
-rake db:create
-rake db:migrate
+yarn install
+bundle exec rake db:create
+bundle exec rake db:migrate
 ```
 
 By default, the generator will create a Rails app with the following options activated:
