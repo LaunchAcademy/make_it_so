@@ -27,9 +27,6 @@ jobs:
       uses: ruby/setup-ruby@ec106b438a1ff6ff109590de34ddc62c540232e0
       with:
         ruby-version: 2.6.3
-        node-version: 10
-    - name: Install nvm
-      run: nvm install 10
     - name: Install railties
       run: gem install railties -v 5.2.3
     - name: Install dependencies
