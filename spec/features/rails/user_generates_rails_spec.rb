@@ -318,6 +318,12 @@ feature 'user generates rails app with default settings' do
       end
     end
 
+    scenario 'adds @types/jest as a dependency' do
+      in_package_json?(package_json_path) do |json|
+        expect(json["devDependencies"]["@types/jest"]).to_not be_nil
+      end
+    end
+
     scenario 'adds enzyme as a dependency' do
       in_package_json?(package_json_path) do |json|
         expect(json["devDependencies"]["enzyme"]).to_not be_nil
