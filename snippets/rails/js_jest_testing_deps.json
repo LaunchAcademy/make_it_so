@@ -2,7 +2,8 @@
   "devDependencies": {
     "babel-jest": "^24.9.0",
     "fetch-mock": "~5.13.1",
-    "jest": "^24.9.0"
+    "jest": "^24.9.0",
+    "@types/jest": "^24.9.0"
   },
   "scripts": {
     "start": "./bin/webpack-dev-server",
@@ -11,17 +12,9 @@
   },
   "jest": {
     "automock": false,
-    "roots": [
-      "spec/javascript", 
-      "app/javascript"
-    ],
-    "moduleDirectories": [
-      "node_modules",
-      "app/javascript"
-    ],
-    "setupFiles": [
-      "./spec/javascript/support/enzyme.js"
-    ],
+    "roots": ["spec/javascript", "app/javascript"],
+    "moduleDirectories": ["node_modules", "app/javascript"],
+    "setupFiles": ["./spec/javascript/support/enzyme.js"],
     "testURL": "http://localhost/"
   }
 }
