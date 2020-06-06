@@ -6,6 +6,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+- add @types/jest for VSCode intellisense
+
 ## [0.5.1] - 2019-10-08
 
 - skip bootsnap by default
