@@ -12,8 +12,8 @@
   <nav class="top-bar">
     <h1><a href="/"><%= camelized %></a></h1>
 
-    <section class="top-bar-section">
-      <ul class="right">
+    <section class="top-bar-right">
+      <ul class="menu">
         <%%- if current_user -%>
           <li><%%= link_to 'Sign Out', destroy_user_session_path, method: :delete %></li>
         <%%- else -%>

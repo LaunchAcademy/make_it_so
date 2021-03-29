@@ -25,11 +25,6 @@ feature 'user generates rails app with default settings' do
     expect(FileTest.exists?(join_paths(app_path, 'app/models'))).to eq(true)
   end
 
-  scenario 'creates an application.js manifest' do
-    js_file = join_paths(app_path, 'app/assets/javascripts/application.js')
-    expect(FileTest.exists?(js_file)).to eq(true)
-  end
-
   scenario 'creates an application.css manifest' do
     expect(FileTest.exists?(css_manifest_path)).to eq(true)
   end
@@ -257,7 +252,7 @@ feature 'user generates rails app with default settings' do
       end
     end
 
-    it 'does not create .babelrc' do 
+    it 'does not create .babelrc' do
       babelrc = File.join(app_path, '.babelrc')
       expect(FileTest.exists?(babelrc)).to eq(false)
     end
@@ -302,7 +297,7 @@ feature 'user generates rails app with default settings' do
         expect(json["jest"]).to_not be_nil
         expect(json["jest"]["setupFiles"]).to include('./spec/javascript/support/enzyme.js')
       end
-    end 
+    end
   end
 
   context 'jest' do
