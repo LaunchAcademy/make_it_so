@@ -20,13 +20,11 @@ module MakeItSo
         @generator.gem 'jquery-rails'
         inside 'app/assets/javascripts' do
           template 'application.js'
-          jquery_files = "//= require jquery\n" +
-            "//= require jquery_ujs\n"
-          gsub_file 'application.js', "//= require rails-ujs\n", jquery_files
         end
       end
 
       def base_stylesheets
+        template "app/assets/config/manifest.js"
         inside 'app/assets/stylesheets' do
           template 'application.css'
         end
@@ -48,8 +46,6 @@ module MakeItSo
       end
 
       def react
-        @generator.gem 'webpacker', '~> 3.3'
-
         after_bundle do
           rake 'webpacker:install'
           rake 'webpacker:install:react'
@@ -294,7 +290,7 @@ module MakeItSo
         end
       end
 
-      def create_enzyme_config 
+      def create_enzyme_config
         run 'mkdir -p spec/javascript/support'
         devDependencies = parsed_package_json["devDependencies"].keys
         enzymeAdapter = devDependencies.select{ |d| d =~ /^enzyme-adapter-react-[0-9]*/ }[0]
