@@ -303,6 +303,10 @@ module MakeItSo
           template 'enzyme.js'
           gsub_file 'enzyme.js', 'ADAPTER NAME GOES HERE', enzymeAdapter
         end
+
+        inside 'app/javascript/react/components' do 
+          template "example.test.js"
+        end
       end
 
       def parsed_package_json
