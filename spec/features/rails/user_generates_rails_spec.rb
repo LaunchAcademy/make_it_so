@@ -303,6 +303,12 @@ feature 'user generates rails app with default settings' do
         expect(json["jest"]["setupFiles"]).to include('./spec/javascript/support/enzyme.js')
       end
     end 
+
+    it 'adds example.test.js to react components folder' do
+      file_subpath = "spec/javascript/support/enzyme.js"
+      example_test_file = File.join(app_path, file_subpath)
+      expect(FileTest.exists?(example_test_file)).to eq(true)
+    end 
   end
 
   context 'jest' do
