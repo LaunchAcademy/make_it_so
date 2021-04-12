@@ -268,7 +268,7 @@ module MakeItSo
 
           inside 'app/assets/javascripts' do
             insert_into_file 'application.js',
-              "//= require foundation\n",
+              "\n//= require foundation\n",
               after: "//= require jquery_ujs\n"
           end
         end
