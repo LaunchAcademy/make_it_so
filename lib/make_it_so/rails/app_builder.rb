@@ -75,6 +75,7 @@ module MakeItSo
             copy_file 'new_application.js', 'application.js'
             remove_file 'new_application.js'
           end
+
         end
       end
 
@@ -262,15 +263,17 @@ module MakeItSo
 
         after_bundle do
           generate 'foundation:install foundation'
+          # foundation install always messes with the JS manifest
+          remove_file 'app/views/layouts/foundation.html.erb'
+      
+          inside 'app/assets/javascripts' do 
+            template "application.js"
+          end
           # foundation-rails generates an application layout so we
           # must remove it
           remove_file 'app/views/layouts/foundation.html.erb'
 
-          inside 'app/assets/javascripts' do
-            insert_into_file 'application.js',
-              "\n//= require foundation\n",
-              after: "//= require jquery_ujs\n"
-          end
+          
         end
       end
 
