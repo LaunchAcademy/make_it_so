@@ -75,6 +75,7 @@ module MakeItSo
             copy_file 'new_application.js', 'application.js'
             remove_file 'new_application.js'
           end
+
         end
       end
 
@@ -262,15 +263,18 @@ module MakeItSo
 
         after_bundle do
           generate 'foundation:install foundation'
+          # foundation install always messes with the JS manifest
+          remove_file 'app/views/layouts/foundation.html.erb'
+
+          inside 'app/assets/javascripts' do
+            remove_file 'application.js'
+            template 'application.foundation.js', 'application.js'
+          end
           # foundation-rails generates an application layout so we
           # must remove it
           remove_file 'app/views/layouts/foundation.html.erb'
 
-          inside 'app/assets/javascripts' do
-            insert_into_file 'application.js',
-              "//= require foundation\n",
-              after: "//= require jquery_ujs\n"
-          end
+
         end
       end
 
@@ -294,7 +298,7 @@ module MakeItSo
         end
       end
 
-      def create_enzyme_config 
+      def create_enzyme_config
         run 'mkdir -p spec/javascript/support'
         devDependencies = parsed_package_json["devDependencies"].keys
         enzymeAdapter = devDependencies.select{ |d| d =~ /^enzyme-adapter-react-[0-9]*/ }[0]
@@ -302,6 +306,10 @@ module MakeItSo
         inside 'spec/javascript/support' do
           template 'enzyme.js'
           gsub_file 'enzyme.js', 'ADAPTER NAME GOES HERE', enzymeAdapter
+        end
+
+        inside 'app/javascript/react/components' do
+          template "example.test.js"
         end
       end
 

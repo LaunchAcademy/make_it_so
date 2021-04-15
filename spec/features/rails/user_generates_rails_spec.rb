@@ -193,6 +193,12 @@ feature 'user generates rails app with default settings' do
     it 'does not include modernizr in the layout' do
       expect(read_file('app/views/layouts/application.html.erb')).to_not include('modernizr')
     end
+
+     it 'adds the custom application.js manifest to the assets folder' do
+      file_subpath = "app/assets/javascripts/application.js"
+      generated_js_manifest = File.join(app_path, file_subpath)
+      expect(FileTest.exists?(generated_js_manifest)).to eq(true)
+    end 
   end
 
   context 'react' do
@@ -302,6 +308,12 @@ feature 'user generates rails app with default settings' do
         expect(json["jest"]).to_not be_nil
         expect(json["jest"]["setupFiles"]).to include('./spec/javascript/support/enzyme.js')
       end
+    end 
+
+    it 'adds example.test.js to react components folder' do
+      file_subpath = "app/javascript/react/components/example.test.js"
+      example_test_file = File.join(app_path, file_subpath)
+      expect(FileTest.exists?(example_test_file)).to eq(true)
     end 
   end
 
