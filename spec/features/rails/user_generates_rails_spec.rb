@@ -311,7 +311,7 @@ feature 'user generates rails app with default settings' do
     end 
 
     it 'adds example.test.js to react components folder' do
-      file_subpath = "spec/javascript/support/enzyme.js"
+      file_subpath = "app/javascript/react/components/example.test.js"
       example_test_file = File.join(app_path, file_subpath)
       expect(FileTest.exists?(example_test_file)).to eq(true)
     end 

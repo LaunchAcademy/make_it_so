@@ -267,7 +267,7 @@ module MakeItSo
           remove_file 'app/views/layouts/foundation.html.erb'
       
           inside 'app/assets/javascripts' do 
-            template "application.js"
+            template "application.foundation.js", "application.js"
           end
           # foundation-rails generates an application layout so we
           # must remove it
