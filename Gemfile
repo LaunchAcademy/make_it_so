@@ -2,7 +2,7 @@ source 'https://rubygems.org'
 
 require_relative 'lib/make_it_so/rails'
 
-ruby '2.7.3'
+ruby '3.0.2'
 
 # Specify your gem's dependencies in make_it_so.gemspec
 gemspec
