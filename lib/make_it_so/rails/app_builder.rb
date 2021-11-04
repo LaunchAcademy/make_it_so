@@ -16,8 +16,18 @@ module MakeItSo
         end
       end
 
+      def base_config_manifest
+        # new sprockets pattern for assets with sprockets 4 in Rails 6
+        empty_directory "app/assets/config"
+         inside 'app/assets/config' do
+          template 'manifest.js'
+        end
+      end
+
       def base_javascripts
         @generator.gem 'jquery-rails'
+        
+        empty_directory "app/assets/javascripts"
         inside 'app/assets/javascripts' do
           template 'application.js'
           jquery_files = "//= require jquery\n" +
@@ -55,7 +65,7 @@ module MakeItSo
       end
 
       def react
-        @generator.gem 'webpacker', '~> 3.3'
+        # @generator.gem 'webpacker', '~> 3.3'
 
         after_bundle do
           rake 'webpacker:install'
@@ -280,8 +290,6 @@ module MakeItSo
           # foundation-rails generates an application layout so we
           # must remove it
           remove_file 'app/views/layouts/foundation.html.erb'
-
-
         end
       end
 
