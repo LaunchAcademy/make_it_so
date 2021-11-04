@@ -76,6 +76,7 @@ module MakeItSo
     def finish_template
       super
 
+      build 'change_ruby_version'
       build 'pry_rails_dependency'
       build 'base_stylesheets'
       build 'eliminate_byebug'

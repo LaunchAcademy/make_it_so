@@ -47,6 +47,13 @@ module MakeItSo
         gsub_file 'Gemfile', both_lines, "\n"
       end
 
+      def change_ruby_version
+        # @generator.gem 'pg', '3.8.2', group: [:development, :test]
+
+        default_ruby_version = /^ruby '2.6.5'$/
+        gsub_file 'Gemfile', default_ruby_version, "\n"
+      end
+
       def react
         @generator.gem 'webpacker', '~> 3.3'
 
